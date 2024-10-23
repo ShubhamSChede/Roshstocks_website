@@ -1,113 +1,254 @@
-import Image from "next/image";
+'use client';
+import dynamic from 'next/dynamic';
+import Navbar from '../../components/Navbar';
+import Link from 'next/link';
+import Footer from '../../components/Footer';
+import { useState, useEffect, useRef } from 'react';
+import FadeInOnScroll from '../../components/FadeInOnScroll';
+import FixedWhatsappButton from '../../components/FixedWhatsapp';
+
+const Slider = dynamic(() => import("react-slick").then(mod => mod.default), {
+  ssr: false,
+  loading: () => <p>Loading...</p>
+});
+
+const featuredCategories = [
+  {
+    name: 'Static Invites',
+    price: 3000,
+    imageUrl: '/FC1.jpg', 
+  },
+  {
+    name: 'Wedding Invites',
+    price: 5000,
+    imageUrl: '/FC1.jpg',
+  },
+  {
+    name: 'Save the Date',
+    price: 2000,
+    imageUrl: '/FC1.jpg',
+  },
+  {
+    name: 'Wardrobe Planner',
+    price: 3500,
+    imageUrl: '/FC1.jpg',
+  },
+];
+
+const testimonials = [
+  { name: 'Sushant & Payal', content: 'This platform has revolutionized my shopping experience!' },
+  { name: 'Pankaj & Radhika', content: 'I found exactly what I was looking for. Highly recommended!' },
+];
+
+const cards = [
+  { step: 1, color: 'bg-red-950', message: 'Contact us' },
+  { step: 2, color: 'bg-red-950', message: 'Let us know their requirement' },
+  { step: 3, color: 'bg-red-950', message: 'Share references, song, faces as required/told by you' },
+  { step: 4, color: 'bg-red-950', message: 'Confirm order and pay 50%' },
+  { step: 5, color: 'bg-red-950', message: 'Get continuously updated' },
+  { step: 6, color: 'bg-red-950', message: 'Confirm final output, pay and get original file' },
+];
 
 export default function Home() {
+  const [isClient, setIsClient] = useState(false);
+  const [rotationActive, setRotationActive] = useState(true);
+  const [currentStep, setCurrentStep] = useState(null);
+  const orbitContainerRef = useRef(null);
+  const [showText, setShowText] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Set isClient to true after component mounts
+  }, []);
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+  };
+
+  // Handle card click to stop rotation and set current step
+  const handleCardClick = (card, event) => {
+    event.stopPropagation();
+    setRotationActive(false); // Stop the rotation
+    setCurrentStep(card); // Set the current step to display details
+    setShowText(true); // Set showText to true to display text horizontally
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+
+      {/* Slider Section */}
+      {isClient ? (
+        <div className="w-full overflow-hidden">
+          <Slider {...sliderSettings}>
+            {[1, 2, 3].map((num) => (
+              <div key={num} className="relative w-full">
+                <img 
+                  src={`/Mask group (${num}).png`} 
+                  alt={`Featured Product ${num}`} 
+                  className="w-full object-cover"
+                  style={{
+                    aspectRatio: '2/1', // Maintain 1:2 aspect ratio
+                    height: 'auto',
+                  }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://via.placeholder.com/800x400?text=Featured+Product+${num}`;
+                  }}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
-      </div>
+      ) : (
+        <p className="text-center py-20">Loading featured products...</p>
+      )}
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+      {/* Featured Categories */}
+      <FadeInOnScroll>
+        <section className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-8 text-center">
+            ___ Featured Categories ___
           </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {featuredCategories.map((category, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+              >
+                {/* Image */}
+                <div className="aspect-w-3 aspect-h-4">
+                  <img
+                    src={category.imageUrl} // Make sure to add imageUrl to your data
+                    alt={category.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Category Information */}
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {category.name}
+                  </h3>
+                  <p className="text-gray-700 font-medium">Rs. {category.price} onwards</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/categories"
+              className="bg-white text-red-950 py-3 px-8 rounded-full font-bold text-lg hover:bg-indigo-100 transition duration-300"
+            >
+              Explore Categories
+            </Link>
+          </div>
+        </section>
+      </FadeInOnScroll>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+      <section className="pb-16 relative">
+        <div className="max-w-7xl mx-auto px-4  sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
+            Our Order Process
           </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+          <div className="text-center mt-8 mb-10">
+            <Link
+              href="/faqs"
+              className="bg-white text-red-950 rounded-full font-bold text-md hover:bg-indigo-100 transition duration-300 m-10"
+            >
+              View the complete guide to orders
+            </Link>
+          </div>
+          <div className="orbit-container relative w-80 h-80 mx-auto" ref={orbitContainerRef}>
+            {cards.map((card, index) => (
+              <div
+                key={index}
+                className={`circular-card absolute ${card.color} text-white rounded-full shadow-md flex items-center justify-center w-16 h-16 transition-all duration-300 ease-in-out`}
+                style={{
+                  animation: rotationActive ? `revolve 24s linear infinite` : 'none',
+                  animationDelay: `${index * -4}s`,
+                  cursor: 'pointer',
+                  top: '50%',
+                  left: '50%',
+                  transform: `translate(-50%, -50%) rotate(${(index * 60)}deg) translateX(140px)`,
+                }}
+                onClick={(e) => handleCardClick(card, e)}
+              >
+                {/* Display text horizontally when rotation is stopped */}
+                {showText ? (
+                  <p className="font-semibold text-sm">{card.step}</p>
+                ) : (
+                  <p className="font-semibold text-sm">Step {card.step}</p>
+                )}
+              </div>
+            ))}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+            {/* Center Content Display */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-white shadow-lg flex items-center justify-center p-4 text-center">
+              {currentStep ? (
+                <div>
+                  <h3 className="text-md font-bold mb-2">{currentStep.message}</h3>
+                  <p className="text-sm text-gray-600">{currentStep.details}</p>
+                </div>
+              ) : (
+                <p className="text-gray-600 text-sm">Click on a step to see details</p>
+              )}
+            </div>
+          </div>
+        </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <style jsx>{`
+          .orbit-container {
+            perspective: 1000px;
+          }
+          .circular-card {
+            position: absolute;
+            transform: translate(-50%, -50%);
+          }
+          @keyframes revolve {
+            from {
+              transform: translate(-50%, -50%) rotate(0deg) translateX(140px) rotate(0deg);
+            }
+            to {
+              transform: translate(-50%, -50%) rotate(360deg) translateX(140px) rotate(-360deg);
+            }
+          }
+        `}</style>
+      </section>
+
+      {/* Testimonials */}
+      <FadeInOnScroll>
+        <section className="pb-14">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
+              What Our Users Say
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-md p-6">
+                  <p className="font-semibold text-red-950">{testimonial.name}</p>
+                  <div className="flex items-center mb-2">
+                    {Array(5).fill().map((_, i) => (
+                      <span key={i} className="text-yellow-500 text-lg">&#9733;</span> // Filled star
+                    ))}
+                  </div>
+                  <p className="text-gray-600 mb-4">"{testimonial.content}"</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </FadeInOnScroll>
+
+      {/* WhatsApp Us Button */}
+     <FixedWhatsappButton/>
+
+      <Footer />
+    </div>
   );
 }
