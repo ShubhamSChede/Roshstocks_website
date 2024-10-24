@@ -1,8 +1,14 @@
 [
     {
-        "ytLink": "https://www.instagram.com/reel/DBY8mq4iJL4/?igsh=MTg4OHJwM2xkcnhmdw==",
+        "ytLink": "https://youtu.be/hDZ7y8RP5HE?si=zcGeqmwomgkxbYFD",
         "estimatedPrice": 180,
         "category": "Muslim Wedding",
         "description": "Modern Muslim wedding invitation with minimalist design."
+    },
+    {
+        "ytLink": "https://www.instagram.com/reel/CufAW0zAIt8/?igsh=MTkzcnRkdjIzNjR6ag==",
+        "estimatedPrice": 250,
+        "category": "Hindu Wedding",
+        "description": "Modern Hindu wedding invitation with minimalist design."
     }
 ]
