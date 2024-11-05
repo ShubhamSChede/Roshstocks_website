@@ -3,6 +3,21 @@ import FixedWhatsappButton from '../../../components/FixedWhatsapp';
 import Footer from '../../../components/Footer';
 import Navbar from '../../../components/Navbar';
 import { useEffect, useState } from 'react';
+import AddReview from '../../../components/addreview';
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'Recently added';
+  
+  try {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  } catch (error) {
+    return 'Recently added';
+  }
+};
 
 export default function ReviewComponent() {
   const [reviews, setReviews] = useState([]);
@@ -14,7 +29,11 @@ export default function ReviewComponent() {
     rating: '',
     reviewText: '',
   });
-  const [averageRating, setAverageRating] = useState(0);
+  const [averageRating, setAverageRating] = useState(0.0);
+  const [ratingDistribution, setRatingDistribution] = useState({
+    1: 0, 2: 0, 3: 0, 4: 0, 5: 0
+  });
+  const [formattedDates, setFormattedDates] = useState({});
 
   // Fetch reviews when the component mounts
   useEffect(() => {
@@ -25,8 +44,24 @@ export default function ReviewComponent() {
         });
         if (response.ok) {
           const data = await response.json();
+          console.log('Full review data:', JSON.stringify(data.reviews[0], null, 2));
           setReviews(data.reviews);
-          setAverageRating(data.averageRating);
+          
+          // Calculate average rating
+          const validReviews = data.reviews.filter(review => review && review.rating);
+          const avgRating = validReviews.length > 0
+            ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length
+            : 0;
+          setAverageRating(avgRating);
+          
+          // Calculate rating distribution
+          const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+          data.reviews.forEach(review => {
+            if (review && review.rating) {
+              distribution[review.rating]++;
+            }
+          });
+          setRatingDistribution(distribution);
         } else {
           console.error('Failed to fetch reviews:', response.status);
         }
@@ -57,8 +92,23 @@ export default function ReviewComponent() {
       });
       if (response.ok) {
         const data = await response.json();
-        setReviews([...reviews, data.review]);
-        setAverageRating(data.averageRating);
+        const newReviews = [...reviews, data.review];
+        setReviews(newReviews);
+        
+        // Recalculate average rating
+        const validReviews = newReviews.filter(review => review && review.rating);
+        const avgRating = validReviews.length > 0
+          ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length
+          : 0;
+        setAverageRating(avgRating);
+        
+        // Update rating distribution
+        const newDistribution = { ...ratingDistribution };
+        if (data.review && data.review.rating) {
+          newDistribution[data.review.rating]++;
+        }
+        setRatingDistribution(newDistribution);
+
         setFormData({
           name: '',
           email: '',
@@ -79,135 +129,109 @@ export default function ReviewComponent() {
   const displayStars = (rating) => {
     return '⭐'.repeat(rating);
   };
+  
+  // Add this effect after initial render
+  useEffect(() => {
+    const formatDatesForDisplay = () => {
+      const newFormattedDates = {};
+      reviews.forEach(review => {
+        if (review && review._id && review.createdAt) {
+          newFormattedDates[review._id] = new Date(review.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+        }
+      });
+      setFormattedDates(newFormattedDates);
+    };
+
+    formatDatesForDisplay();
+  }, [reviews]);
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar/>
-      <div className="max-w-3xl mx-auto">
+      <Navbar />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6">Customer Reviews</h1>
- 
-      
-        {/* Display average rating */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold">Average Rating: {averageRating}</h2>
-          <div className="flex items-center">
-            {displayStars(Math.round(averageRating))}
+
+        {/* Rating Statistics Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Average Rating Card */}
+          <div className="bg-white rounded-lg p-6 shadow-md">
+            <h2 className="text-2xl font-semibold mb-2">
+              Average Rating: {typeof averageRating === 'number' ? averageRating.toFixed(1) : '0.0'}
+            </h2>
+            <div className="flex items-center text-2xl">
+              {displayStars(Math.round(averageRating || 0))}
+            </div>
+          </div>
+
+          {/* Rating Distribution Card */}
+          <div className="bg-white rounded-lg p-6 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">Rating Distribution</h2>
+            {[5, 4, 3, 2, 1].map((star) => (
+              <div key={star} className="flex items-center mb-2">
+                <span className="w-16">{star} Stars</span>
+                <div className="flex-1 mx-4 h-4 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-yellow-400"
+                    style={{ 
+                      width: `${(ratingDistribution[star] / reviews.length) * 100}%` 
+                    }}
+                  ></div>
+                </div>
+                <span className="w-16 text-right">{ratingDistribution[star]}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Button to toggle the review form */}
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="bg-blue-500 text-white py-2 px-4 rounded mt-4 hover:bg-blue-600 transition duration-300"
-        >
-          {showForm ? 'Cancel' : 'Write a Review'}
-        </button>
+        <AddReview 
+          onSubmit={handleSubmit}
+          formData={formData}
+          handleChange={handleChange}
+        />
 
-        {/* Review Form */}
-        {showForm && (
-          <form onSubmit={handleSubmit} className="bg-gray-100 p-6 mt-6 rounded-lg shadow-md max-w-xl mx-auto">
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="phone">
-                Phone
-              </label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="rating">
-                Rating
-              </label>
-              <input
-                type="number"
-                id="rating"
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2" htmlFor="reviewText">
-                Review
-              </label>
-              <textarea
-                id="reviewText"
-                name="reviewText"
-                value={formData.reviewText}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                rows="4"
-                required
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300"
-            >
-              Submit Review
-            </button>
-          </form>
-        )}
-
-        {/* Display reviews */}
-        <div className="mt-6">
+        {/* Updated Reviews Grid with proper checks */}
+        <div className="mt-8">
           {reviews.length > 0 ? (
-            reviews.map((review) => (
-              review && review._id ? (
-                <div key={review._id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-                  <h3 className="text-lg font-semibold">{review.name || 'Anonymous'}</h3>
-                  <p className="text-gray-600">{review.email || 'No email provided'}</p>
-                  <p className="text-gray-600">Phone: {review.phone || 'No phone provided'}</p>
-                  <div className="flex items-center mb-2">
-                    {displayStars(review.rating || 0)}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {reviews.map((review) => {
+                if (!review || !review._id) return null;
+                
+                return (
+                  <div key={review._id} className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-xl font-bold text-blue-600">
+                          {review.name ? review.name.charAt(0).toUpperCase() : 'A'}
+                        </span>
+                      </div>
+                      <div className="ml-4">
+                        <h3 className="text-lg font-semibold">{review.name || 'Anonymous'}</h3>
+                        <div className="text-yellow-400">
+                          {displayStars(review.rating || 0)}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-2">{review.email || 'No email provided'}</p>
+                    <p className="text-gray-600 text-sm mb-4">{review.phone || 'No phone provided'}</p>
+                    <p className="text-gray-800 mb-4">{review.reviewText || 'No review text provided'}</p>
+                    <p className="text-gray-500 text-sm">
+                      {review && review.createdAt ? formatDate(review.createdAt) : 'Recently added'}
+                    </p>
                   </div>
-                  <p className="text-gray-800">{review.reviewText || 'No review text provided'}</p>
-                </div>
-              ) : null
-            ))
+                );
+              })}
+            </div>
           ) : (
             <p className="text-gray-600">No reviews yet.</p>
           )}
         </div>
       </div>
-      <FixedWhatsappButton/>
-      <Footer/>
+      <FixedWhatsappButton />
+      <Footer />
     </div>
   );
 }
