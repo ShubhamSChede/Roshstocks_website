@@ -4,10 +4,11 @@ import Footer from '../../../components/Footer';
 import Navbar from '../../../components/Navbar';
 import { useEffect, useState } from 'react';
 import AddReview from '../../../components/addreview';
+import { motion } from 'framer-motion';
 
 const formatDate = (dateString) => {
   if (!dateString) return 'Recently added';
-  
+
   try {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -33,9 +34,7 @@ export default function ReviewComponent() {
   const [ratingDistribution, setRatingDistribution] = useState({
     1: 0, 2: 0, 3: 0, 4: 0, 5: 0
   });
-  const [formattedDates, setFormattedDates] = useState({});
 
-  // Fetch reviews when the component mounts
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -44,16 +43,15 @@ export default function ReviewComponent() {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log('Full review data:', JSON.stringify(data.reviews[0], null, 2));
           setReviews(data.reviews);
-          
+
           // Calculate average rating
           const validReviews = data.reviews.filter(review => review && review.rating);
           const avgRating = validReviews.length > 0
             ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length
             : 0;
           setAverageRating(avgRating);
-          
+
           // Calculate rating distribution
           const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
           data.reviews.forEach(review => {
@@ -73,15 +71,25 @@ export default function ReviewComponent() {
     fetchReviews();
   }, []);
 
-  // Handle input changes for the form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
+  const displayStars = (rating) => {
+    return '⭐'.repeat(rating);
+  };
+
+  const scrollToReviewSection = () => {
+    const addReviewSection = document.querySelector('.add-review-section');
+    if (addReviewSection) {
+      addReviewSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const response = await fetch('/api/reviews', {
         method: 'POST',
@@ -90,25 +98,9 @@ export default function ReviewComponent() {
         },
         body: JSON.stringify(formData),
       });
-      if (response.ok) {
-        const data = await response.json();
-        const newReviews = [...reviews, data.review];
-        setReviews(newReviews);
-        
-        // Recalculate average rating
-        const validReviews = newReviews.filter(review => review && review.rating);
-        const avgRating = validReviews.length > 0
-          ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length
-          : 0;
-        setAverageRating(avgRating);
-        
-        // Update rating distribution
-        const newDistribution = { ...ratingDistribution };
-        if (data.review && data.review.rating) {
-          newDistribution[data.review.rating]++;
-        }
-        setRatingDistribution(newDistribution);
 
+      if (response.ok) {
+        // Reset form data
         setFormData({
           name: '',
           email: '',
@@ -116,92 +108,102 @@ export default function ReviewComponent() {
           rating: '',
           reviewText: '',
         });
-        setShowForm(false);
+
+        // Refresh reviews list
+        const updatedResponse = await fetch('/api/reviews');
+        const data = await updatedResponse.json();
+        setReviews(data.reviews);
+
+        // Recalculate average rating and distribution
+        const validReviews = data.reviews.filter(review => review && review.rating);
+        const avgRating = validReviews.length > 0
+          ? validReviews.reduce((sum, review) => sum + review.rating, 0) / validReviews.length
+          : 0;
+        setAverageRating(avgRating);
+
+        const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        data.reviews.forEach(review => {
+          if (review && review.rating) {
+            distribution[review.rating]++;
+          }
+        });
+        setRatingDistribution(distribution);
       } else {
-        console.error('Failed to submit review:', response.status);
+        console.error('Failed to submit review');
       }
     } catch (error) {
       console.error('Error submitting review:', error);
     }
   };
 
-  // Function to display star ratings
-  const displayStars = (rating) => {
-    return '⭐'.repeat(rating);
-  };
-  
-  // Add this effect after initial render
-  useEffect(() => {
-    const formatDatesForDisplay = () => {
-      const newFormattedDates = {};
-      reviews.forEach(review => {
-        if (review && review._id && review.createdAt) {
-          newFormattedDates[review._id] = new Date(review.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          });
-        }
-      });
-      setFormattedDates(newFormattedDates);
-    };
-
-    formatDatesForDisplay();
-  }, [reviews]);
-
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-6">Customer Reviews</h1>
+        <h1 className="text-3xl font-bold mb-6 mt-10">Customer Reviews</h1>
 
         {/* Rating Statistics Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Average Rating Card */}
-          <div className="bg-white rounded-lg p-6 shadow-md">
+          <motion.div 
+            className="bg-white rounded-lg p-6 shadow-md"
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <h2 className="text-2xl font-semibold mb-2">
               Average Rating: {typeof averageRating === 'number' ? averageRating.toFixed(1) : '0.0'}
             </h2>
             <div className="flex items-center text-2xl">
               {displayStars(Math.round(averageRating || 0))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Rating Distribution Card */}
           <div className="bg-white rounded-lg p-6 shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Rating Distribution</h2>
             {[5, 4, 3, 2, 1].map((star) => (
-              <div key={star} className="flex items-center mb-2">
+              <motion.div
+                key={star}
+                className="flex items-center mb-2"
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: star * 0.1 }}
+              >
                 <span className="w-16">{star} Stars</span>
                 <div className="flex-1 mx-4 h-4 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
+                  <motion.div 
                     className="h-full bg-yellow-400"
-                    style={{ 
-                      width: `${(ratingDistribution[star] / reviews.length) * 100}%` 
-                    }}
-                  ></div>
+                    style={{ width: `${(ratingDistribution[star] / reviews.length) * 100}%` }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${(ratingDistribution[star] / reviews.length) * 100}%` }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  ></motion.div>
                 </div>
                 <span className="w-16 text-right">{ratingDistribution[star]}</span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
-        <AddReview 
-          onSubmit={handleSubmit}
-          formData={formData}
-          handleChange={handleChange}
-        />
+        <AddReview onSubmit={handleSubmit} formData={formData} handleChange={handleChange} />
 
-        {/* Updated Reviews Grid with proper checks */}
+        {/* Reviews Grid */}
         <div className="mt-8">
           {reviews.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews.map((review) => {
                 if (!review || !review._id) return null;
-                
+
                 return (
-                  <div key={review._id} className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                  <motion.div 
+                    key={review._id} 
+                    className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                         <span className="text-xl font-bold text-blue-600">
@@ -221,7 +223,7 @@ export default function ReviewComponent() {
                     <p className="text-gray-500 text-sm">
                       {review && review.createdAt ? formatDate(review.createdAt) : 'Recently added'}
                     </p>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

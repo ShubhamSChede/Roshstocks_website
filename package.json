@@ -14,7 +14,7 @@
     "@heroicons/react": "^2.1.5",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "framer-motion": "^11.11.9",
+    "framer-motion": "^11.11.16",
     "lucide-react": "^0.453.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.2",
