@@ -1,11 +1,18 @@
 'use client';
 import dynamic from 'next/dynamic';
+import { Rochester } from 'next/font/google';
 import Navbar from '../../components/Navbar';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
 import { useState, useEffect, useRef } from 'react';
 import FadeInOnScroll from '../../components/FadeInOnScroll';
 import FixedWhatsappButton from '../../components/FixedWhatsapp';
+
+const rochester = Rochester({
+  subsets: ['latin'],  // Choose the subset you need
+  weight: ['400'],  // Define the weights you will use
+  variable: '--font-rochester', 
+});
 
 const Slider = dynamic(() => import("react-slick").then(mod => mod.default), {
   ssr: false,
@@ -78,78 +85,76 @@ export default function Home() {
     setCurrentStep(card); // Set the current step to display details
     setShowText(true); // Set showText to true to display text horizontally
   };
-
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="`${rochester.variable} font-rochester min-h-screen bg-gray-100`">
       <Navbar />
 
       {/* Slider Section */}
       {isClient ? (
-        <div className="w-full overflow-hidden">
-          <Slider {...sliderSettings}>
-            {[1, 2, 3].map((num) => (
-              <div key={num} className="relative w-full">
-                <img 
-                  src={`/Mask group (${num}).png`} 
-                  alt={`Featured Product ${num}`} 
-                  className="w-full object-cover"
-                  style={{
-                    aspectRatio: '2/1', // Maintain 1:2 aspect ratio
-                    height: 'auto',
-                  }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = `https://via.placeholder.com/800x400?text=Featured+Product+${num}`;
-                  }}
-                />
-              </div>
-            ))}
-          </Slider>
+  <div className="w-full overflow-hidden">
+    <Slider {...sliderSettings}>
+      {[1, 2, 3].map((num) => (
+        <div key={num} className="relative w-full">
+          <img 
+            src={`/Mask group (${num}).png`} 
+            alt={`Featured Product ${num}`} 
+            className="w-full object-cover"
+            style={{
+              aspectRatio: '3 / 1', // Default for larger screens
+            }} 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `https://via.placeholder.com/800x400?text=Featured+Product+${num}`;
+            }}
+          />
         </div>
-      ) : (
-        <p className="text-center py-20">Loading featured products...</p>
-      )}
+      ))}
+    </Slider>
+  </div>
+) : (
+  <p className="text-center py-20">Loading featured products...</p>
+)}
 
-      {/* Featured Categories */}
-      <FadeInOnScroll>
-        <section className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-8 text-center">
-            ___ Featured Categories ___
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {featuredCategories.map((category, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
-              >
-                {/* Image */}
-                <div className="aspect-w-3 aspect-h-4">
-                  <img
-                    src={category.imageUrl} // Make sure to add imageUrl to your data
-                    alt={category.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Category Information */}
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {category.name}
-                  </h3>
-                  <p className="text-gray-700 font-medium">Rs. {category.price} onwards</p>
-                </div>
-              </div>
-            ))}
+    {/* Featured Categories */}
+<FadeInOnScroll>
+  <section className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    <h2 className="text-2xl font-extrabold text-gray-900 mb-8 text-center">
+      ___ Featured Categories ___
+    </h2>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {featuredCategories.map((category, index) => (
+        <div
+          key={index}
+          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+        >
+          {/* Image */}
+          <div className="aspect-w-3 aspect-h-4">
+            <img
+              src={category.imageUrl}
+              alt={category.name}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <div className="text-center mt-8">
-            <Link
-              href="/categories"
-              className="bg-white text-red-950 py-3 px-8 rounded-full font-bold text-lg hover:bg-indigo-100 transition duration-300"
-            >
-              Explore Categories
-            </Link>
+          {/* Category Information */}
+          <div className="p-6 text-center">
+            <h3 className="text-xl sm:text-md font-semibold text-gray-900 mb-2">
+              {category.name}
+            </h3>
+            <p className="text-gray-700 font-medium">Rs. {category.price} onwards</p>
           </div>
-        </section>
-      </FadeInOnScroll>
+        </div>
+      ))}
+    </div>
+    <div className="text-center mt-8">
+      <Link
+        href="/categories"
+        className="bg-white text-red-950 py-3 px-8 rounded-full font-bold text-lg hover:bg-indigo-100 transition duration-300"
+      >
+        Explore Categories
+      </Link>
+    </div>
+  </section>
+</FadeInOnScroll>
 
       <section className="pb-16 relative">
         <div className="max-w-7xl mx-auto px-4  sm:px-6 lg:px-8">
