@@ -19,7 +19,6 @@ export default function About() {
         <Navbar />
         <AboutSection />
         <JourneySection />
-
         <FixedWhatsappButton />
         <Footer />
       </div>
