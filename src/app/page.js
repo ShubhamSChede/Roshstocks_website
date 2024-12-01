@@ -1,17 +1,17 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { Rochester } from 'next/font/google';
 import Navbar from '../../components/Navbar';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
 import { useState, useEffect, useRef } from 'react';
 import FadeInOnScroll from '../../components/FadeInOnScroll';
 import FixedWhatsappButton from '../../components/FixedWhatsapp';
+import { Josefin_Sans } from 'next/font/google';
+import Timeline from '../../components/HorizontalTimeline';
 
-const rochester = Rochester({
-  subsets: ['latin'],  // Choose the subset you need
-  weight: ['400'],  // Define the weights you will use
-  variable: '--font-rochester', 
+const josfin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: '400',
 });
 
 const Slider = dynamic(() => import("react-slick").then(mod => mod.default), {
@@ -28,17 +28,17 @@ const featuredCategories = [
   {
     name: 'Wedding Invites',
     price: 5000,
-    imageUrl: '/FC1.jpg',
+    imageUrl: '/FC2.jpg',
   },
   {
     name: 'Save the Date',
     price: 2000,
-    imageUrl: '/FC1.jpg',
+    imageUrl: '/FC3.jpg',
   },
   {
     name: 'Wardrobe Planner',
     price: 3500,
-    imageUrl: '/FC1.jpg',
+    imageUrl: '/FC4.jpg',
   },
 ];
 
@@ -64,7 +64,7 @@ export default function Home() {
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Set isClient to true after component mounts
+    setIsClient(true); 
   }, []);
 
   const sliderSettings = {
@@ -77,16 +77,9 @@ export default function Home() {
     autoplaySpeed: 3000,
     arrows: false,
   };
-
-  // Handle card click to stop rotation and set current step
-  const handleCardClick = (card, event) => {
-    event.stopPropagation();
-    setRotationActive(false); // Stop the rotation
-    setCurrentStep(card); // Set the current step to display details
-    setShowText(true); // Set showText to true to display text horizontally
-  };
   return (
-    <div className="`${rochester.variable} font-rochester min-h-screen bg-gray-100`">
+    <main className={josfin.className}>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
 
       {/* Slider Section */}
@@ -118,9 +111,12 @@ export default function Home() {
     {/* Featured Categories */}
 <FadeInOnScroll>
   <section className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-    <h2 className="text-2xl font-extrabold text-gray-900 mb-8 text-center">
-      ___ Featured Categories ___
-    </h2>
+  <h2 className="text-2xl font-extrabold text-gray-900 mb-8 flex items-center justify-center">
+  <span className="flex-grow border-t border-gray-800"></span>
+  <span className="mx-4">Featured Categories</span>
+  <span className="flex-grow border-t border-gray-800"></span>
+</h2>
+
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
       {featuredCategories.map((category, index) => (
         <div
@@ -128,13 +124,16 @@ export default function Home() {
           className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
         >
           {/* Image */}
-          <div className="aspect-w-3 aspect-h-4">
-            <img
-              src={category.imageUrl}
-              alt={category.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
+<div className="relative w-full max-w-md justify-center">
+  <div className="relative w-3/4 justify-center" style={{ aspectRatio: '3 / 4' }}>
+    <img
+      src={category.imageUrl}
+      alt={category.name}
+      className="w-full h-full object-fill rounded-lg justify-center"
+    />
+  </div>
+</div>
+
           {/* Category Information */}
           <div className="p-6 text-center">
             <h3 className="text-xl sm:text-md font-semibold text-gray-900 mb-2">
@@ -156,83 +155,34 @@ export default function Home() {
   </section>
 </FadeInOnScroll>
 
-      <section className="pb-16 relative">
+      <section className="pb-2 relative">
         <div className="max-w-7xl mx-auto px-4  sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
-            Our Order Process
-          </h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 flex items-center justify-center">
+            <span className="flex-grow border-t border-gray-800"></span>
+            <span className="mx-4">Our Order Process</span>
+            <span className="flex-grow border-t border-gray-800"></span>
+        </h2>
+        </div>
           <div className="text-center mt-8 mb-10">
             <Link
               href="/faqs"
-              className="bg-white text-red-950 rounded-full font-bold text-md hover:bg-indigo-100 transition duration-300 m-10"
+              className="bg-white text-red-950 rounded-full font-bold text-md hover:bg-red-100 transition duration-300 m-5 underline"
             >
               View the complete guide to orders
             </Link>
           </div>
-          <div className="orbit-container relative w-80 h-80 mx-auto" ref={orbitContainerRef}>
-            {cards.map((card, index) => (
-              <div
-                key={index}
-                className={`circular-card absolute ${card.color} text-white rounded-full shadow-md flex items-center justify-center w-16 h-16 transition-all duration-300 ease-in-out`}
-                style={{
-                  animation: rotationActive ? `revolve 24s linear infinite` : 'none',
-                  animationDelay: `${index * -4}s`,
-                  cursor: 'pointer',
-                  top: '50%',
-                  left: '50%',
-                  transform: `translate(-50%, -50%) rotate(${(index * 60)}deg) translateX(140px)`,
-                }}
-                onClick={(e) => handleCardClick(card, e)}
-              >
-                {/* Display text horizontally when rotation is stopped */}
-                {showText ? (
-                  <p className="font-semibold text-sm">{card.step}</p>
-                ) : (
-                  <p className="font-semibold text-sm">Step {card.step}</p>
-                )}
-              </div>
-            ))}
-
-            {/* Center Content Display */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-white shadow-lg flex items-center justify-center p-4 text-center">
-              {currentStep ? (
-                <div>
-                  <h3 className="text-md font-bold mb-2">{currentStep.message}</h3>
-                  <p className="text-sm text-gray-600">{currentStep.details}</p>
-                </div>
-              ) : (
-                <p className="text-gray-600 text-sm">Click on a step to see details</p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <style jsx>{`
-          .orbit-container {
-            perspective: 1000px;
-          }
-          .circular-card {
-            position: absolute;
-            transform: translate(-50%, -50%);
-          }
-          @keyframes revolve {
-            from {
-              transform: translate(-50%, -50%) rotate(0deg) translateX(140px) rotate(0deg);
-            }
-            to {
-              transform: translate(-50%, -50%) rotate(360deg) translateX(140px) rotate(-360deg);
-            }
-          }
-        `}</style>
       </section>
-
+     <Timeline/>
       {/* Testimonials */}
       <FadeInOnScroll>
         <section className="pb-14">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
-              What Our Users Say
-            </h2>
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-8 flex items-center justify-center">
+  <span className="flex-grow border-t border-gray-800"></span>
+  <span className="mx-4">What Our Users Say</span>
+  <span className="flex-grow border-t border-gray-800"></span>
+</h2>
+
             <div className="grid md:grid-cols-2 gap-8">
               {testimonials.map((testimonial, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-md p-6">
@@ -254,6 +204,8 @@ export default function Home() {
      <FixedWhatsappButton/>
 
       <Footer />
+      
     </div>
-  );
+    </main>
+  )
 }

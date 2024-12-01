@@ -5,6 +5,13 @@ import Navbar from '../../../components/Navbar';
 import { useEffect, useState } from 'react';
 import AddReview from '../../../components/addreview';
 import { motion } from 'framer-motion';
+import { Josefin_Sans } from 'next/font/google';
+
+const josfin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: '400',
+});
+
 
 const formatDate = (dateString) => {
   if (!dateString) return 'Recently added';
@@ -137,6 +144,7 @@ export default function ReviewComponent() {
   };
 
   return (
+    <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -189,16 +197,16 @@ export default function ReviewComponent() {
         <AddReview onSubmit={handleSubmit} formData={formData} handleChange={handleChange} />
 
         {/* Reviews Grid */}
-        <div className="mt-8">
+        <div className="mt-8 mb-10">
           {reviews.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {reviews.map((review) => {
                 if (!review || !review._id) return null;
 
                 return (
                   <motion.div 
                     key={review._id} 
-                    className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+                    className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 border-2 border-red-700"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     whileHover={{ scale: 1.05 }}
@@ -235,5 +243,6 @@ export default function ReviewComponent() {
       <FixedWhatsappButton />
       <Footer />
     </div>
+    </main>
   );
 }

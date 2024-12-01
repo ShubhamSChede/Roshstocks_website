@@ -21,6 +21,7 @@ export default function Navbar() {
                 <Link href="/faqs" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">FAQs</Link>
                 <Link href="/categories" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Categories</Link>
                 <Link href="/reviews" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Reviews</Link>
+                <Link href="/tnc" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">T&C</Link>
               </div>
             </div>
           </div>

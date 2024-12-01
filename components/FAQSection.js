@@ -1,5 +1,5 @@
-// components/FAQSection.js
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const faqs = [
   {
@@ -43,10 +43,18 @@ function FAQItem({ question, answer }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
+
+      {/* Use Framer Motion for the animated answer */}
       {isOpen && (
-        <div className="pb-5">
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="pb-5"
+        >
           <p className="text-gray-500">{answer}</p>
-        </div>
+        </motion.div>
       )}
     </div>
   );

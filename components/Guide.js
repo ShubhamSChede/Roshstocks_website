@@ -1,69 +1,170 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const OrderGuide = () => {
-  const steps = [
-    {
-      step: 1,
-      color: 'bg-red-950',
-      title: 'Contact Us',
-      description: `The journey begins with a simple hello! Reach out to us via phone, email, or even a direct message on social media. This is your chance to get familiar with our process, ask any initial questions, and tell us a bit about your project ideas. Whether you already have a specific vision or are looking for creative direction, we’re excited to help. So don't hesitate—let's start this creative collaboration!`
-    },
-    {
-      step: 2,
-      color: 'bg-red-950',
-      title: 'Let Us Know Your Requirements',
-      description: `This step is all about diving deeper into your vision. Tell us everything you can about your project requirements—every detail, no matter how small, helps us craft a final result that aligns with your dreams. Your input at this stage lets us tailor our approach to create something that feels truly personal.`
-    },
-    {
-      step: 3,
-      color: 'bg-red-950',
-      title: 'Share References, Songs, Faces, and More',
-      description: `Here’s where we start adding all the special touches! If you have specific images, reference photos, songs, or other elements that capture the essence of what you’re looking for, now’s the time to share them. Feel free to include anything that speaks to your personality and style.`
-    },
-    {
-      step: 4,
-      color: 'bg-red-950',
-      title: 'Confirm Order and Pay 50%',
-      description: `Once we have all your ideas and requirements in hand, we’ll finalize the order details, timeline, and total cost. This confirmation ensures we’re on the same page, and with a 50% deposit, we can officially kick off the project! This initial payment secures our focus and resources, allowing us to allocate the time and attention needed to bring your vision to life.`
-    },
-    {
-      step: 5,
-      color: 'bg-red-950',
-      title: 'Get Continuously Updated',
-      description: `Collaboration doesn’t end when the project starts; in fact, it’s just beginning! As we progress, we’ll keep you in the loop with regular updates, previews, and opportunities to review the work-in-progress. We encourage you to be open with your feedback—it’s essential for creating a final product that resonates with you.`
-    },
-    {
-      step: 6,
-      color: 'bg-red-950',
-      title: 'Confirm Final Output, Pay, and Receive Your Original File',
-      description: `The moment has arrived! Once we reach the final draft, you’ll have a chance to review every detail and confirm that it’s everything you envisioned. After your final confirmation and payment, we’ll send you the original, high-quality file. It’s the culmination of our work together—an exclusive creation that’s uniquely yours.`
-    }
-  ];
-
   return (
-    <section className="min-h-screen flex flex-col items-center py-12 bg-white">
-      <h2 className="text-4xl font-bold text-red-950 mb-12 text-center">Order Guide for Custom Invites</h2>
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 px-6 md:px-0">
-        {steps.map((step, index) => (
-          <motion.div
-            key={index}
-            className={`p-8 rounded-lg ${step.color} shadow-lg text-white`}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-          >
-            <div className="flex items-center mb-4">
-              <span className="text-xl font-bold bg-gradient-to-r from-red-700 to-red-500 rounded-full h-12 w-12 flex items-center justify-center mr-4">
-                {step.step}
-              </span>
-              <h3 className="text-2xl font-semibold">{step.title}</h3>
-            </div>
-            <p className="text-gray-200 leading-relaxed">{step.description}</p>
-          </motion.div>
-        ))}
+    <div className="bg-white p-6 md:p-10 max-w-7xl mx-auto">
+      <h1 className="text-center text-4xl md:text-5xl font-bold mb-16 text-gray-800">Order Process</h1>
+      <div className="relative space-y-20">
+        {/* Step 1 */}
+        <motion.div 
+          className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            01
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="font-bold text-2xl mb-4">Design Selection</h2>
+            <p className="text-gray-700 text-lg">
+              Browse and choose templates from Instagram Gallery or any other references.
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Design Selection"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Step 2 */}
+        <motion.div 
+          className="flex flex-col md:flex-row-reverse items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            02
+          </div>
+          <div className="flex-1 text-center md:text-right">
+            <h2 className="font-bold text-2xl mb-4">Consultation & Estimate</h2>
+            <p className="text-gray-700 text-lg">
+              Once the template is selected and requirements are shared, a quotation of the invite is shared via email, Instagram, or WhatsApp.
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Consultation & Estimate"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Step 3 */}
+        <motion.div 
+          className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            03
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="font-bold text-2xl mb-4">Placing Order</h2>
+            <p className="text-gray-700 text-lg">
+              Order is confirmed by a 50% advance payment. Invite content will be shared by the client in a content form provided by the Roshtocks team. <br /> 
+              <span className="text-sm text-gray-600">Note: A small part of our branding will remain on the final product. Payment modes include GPA, Net Banking, Credit Card, or Debit Card.</span>
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Placing Order"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Step 4 */}
+        <motion.div 
+          className="flex flex-col md:flex-row-reverse items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            04
+          </div>
+          <div className="flex-1 text-center md:text-right">
+            <h2 className="font-bold text-2xl mb-4">Approval</h2>
+            <p className="text-gray-700 text-lg">
+              A watermark draft will be shared with the client for proofreading and approval. Two rounds of revisions are offered.
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Approval"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Step 5 */}
+        <motion.div 
+          className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            05
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="font-bold text-2xl mb-4">Payoff and Delivery</h2>
+            <p className="text-gray-700 text-lg">
+              The balance amount is to be paid before delivery. The final invitation will be watermark-free and ready for use.<br />
+              <span className="text-sm text-gray-600">Note: A small part of our branding will remain on the final product. Payment modes include GPA, Net Banking, Credit Card, or Debit Card.</span>
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Payoff and Delivery"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Step 6 */}
+        <motion.div 
+          className="flex flex-col md:flex-row-reverse items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+            06
+          </div>
+          <div className="flex-1 text-center md:text-right">
+            <h2 className="font-bold text-2xl mb-4">Disclaimer</h2>
+            <p className="text-gray-700 text-lg">
+              Any changes requested after final delivery will be chargeable, subject to the change request.
+            </p>
+          </div>
+          <motion.img
+            src="/step1.jpg"
+            alt="Disclaimer"
+            className="w-64 h-auto object-contain rounded-lg shadow-md"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+        </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 
