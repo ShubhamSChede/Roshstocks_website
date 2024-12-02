@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import {Button, ButtonGroup} from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 
 const OrderGuide = () => {
   return (
@@ -13,14 +15,20 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+          <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float">
             01
-          </div>
+           </div>
+
           <div className="flex-1 text-center md:text-left">
             <h2 className="font-bold text-2xl mb-4">Design Selection</h2>
             <p className="text-gray-700 text-lg">
               Browse and choose templates from Instagram Gallery or any other references.
             </p>
+            <Link href="/categories" >
+            <button className="text-lg font-bold px-6 py-1 rounded-lg border-2 border-red-950 shadow-lg hover:scale-105 hover:shadow-red-500/50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 transition-transform transform duration-300 ease-in-out mt-4">
+  Go to Categories
+</button>
+      </Link>
           </div>
           <motion.img
             src="/step1.jpg"
@@ -39,9 +47,9 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+           <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float ml-6">
             02
-          </div>
+           </div>
           <div className="flex-1 text-center md:text-right">
             <h2 className="font-bold text-2xl mb-4">Consultation & Estimate</h2>
             <p className="text-gray-700 text-lg">
@@ -65,9 +73,9 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+           <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float">
             03
-          </div>
+           </div>
           <div className="flex-1 text-center md:text-left">
             <h2 className="font-bold text-2xl mb-4">Placing Order</h2>
             <p className="text-gray-700 text-lg">
@@ -92,9 +100,9 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+           <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float ml-6">
             04
-          </div>
+           </div>
           <div className="flex-1 text-center md:text-right">
             <h2 className="font-bold text-2xl mb-4">Approval</h2>
             <p className="text-gray-700 text-lg">
@@ -118,9 +126,9 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+           <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float">
             05
-          </div>
+           </div>
           <div className="flex-1 text-center md:text-left">
             <h2 className="font-bold text-2xl mb-4">Payoff and Delivery</h2>
             <p className="text-gray-700 text-lg">
@@ -145,9 +153,9 @@ const OrderGuide = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="bg-red-900 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 md:mb-0">
+           <div className="bg-red-950 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg animate-float ml-6">
             06
-          </div>
+           </div>
           <div className="flex-1 text-center md:text-right">
             <h2 className="font-bold text-2xl mb-4">Disclaimer</h2>
             <p className="text-gray-700 text-lg">
