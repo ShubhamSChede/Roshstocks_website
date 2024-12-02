@@ -41,7 +41,7 @@ export default function Footer() {
        <FooterButtons />
 <div className="mt-8 pt-8 border-t border-gray-700">
 <div className="text-center mt-6">
-  <a href="https://www.linkedin.com/in/shubham-chede" className="text-gray-400 hover:text-white" target="_blank" rel="noopener noreferrer">
+  <a href="https://www.linkedin.com/in/shubham-chede-2957bb278?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app " className="text-gray-400 hover:text-white" target="_blank" rel="noopener noreferrer">
     Developed and built by Shubham Chede
   </a>
 </div>

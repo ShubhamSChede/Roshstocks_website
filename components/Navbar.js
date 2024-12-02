@@ -17,11 +17,11 @@ export default function Navbar() {
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-4">
                 <Link href="/" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium ">Home</Link>
+                <Link href="/faqs" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Process</Link>
+                <Link href="/categories" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Gallery</Link>
                 <Link href="/about" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium ">About me</Link>
-                <Link href="/faqs" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">FAQs</Link>
-                <Link href="/categories" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Categories</Link>
                 <Link href="/reviews" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Reviews</Link>
-                <Link href="/tnc" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">T&C</Link>
+                <Link href="/tnc" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">T&C</Link>             
               </div>
             </div>
           </div>
@@ -49,10 +49,11 @@ export default function Navbar() {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 flex-row items-center sm:px-3">
             <Link href="/" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">Home</Link>
-            <Link href="/about" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">About</Link>
-            <Link href="/faqs" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">FAQs</Link>
-            <Link href="/categories" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">Categories</Link>
+            <Link href="/faqs" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">Process</Link>
+            <Link href="/categories" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">Gallery</Link>
+            <Link href="/about" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">About me</Link>
             <Link href="/reviews" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">Reviews</Link>
+            <Link href="/tnc" className="text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center">T&C</Link>
           </div>
         </div>
       )}

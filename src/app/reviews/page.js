@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import AddReview from '../../../components/addreview';
 import { motion } from 'framer-motion';
 import { Josefin_Sans } from 'next/font/google';
+import PageLayout from '../../../components/PageLayout';
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
@@ -144,6 +145,7 @@ export default function ReviewComponent() {
   };
 
   return (
+    <PageLayout>
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -244,5 +246,6 @@ export default function ReviewComponent() {
       <Footer />
     </div>
     </main>
+    </PageLayout>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import PageLayout from './PageLayout';
 
 const faqs = [
   {
@@ -70,5 +71,6 @@ export default function FAQSection() {
         ))}
       </div>
     </div>
+    
   );
 }

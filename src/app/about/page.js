@@ -5,6 +5,7 @@ import FixedWhatsappButton from '../../../components/FixedWhatsapp'
 import AboutSection from '../../../components/AboutSection'
 import JourneySection from '../../../components/JourneySection'
 import { Josefin_Sans } from 'next/font/google';
+import PageLayout from '../../../components/PageLayout';
 
 
 const josfin = Josefin_Sans({
@@ -14,6 +15,7 @@ const josfin = Josefin_Sans({
 
 export default function About() {
   return (
+    <PageLayout>
     <main className={josfin.className}>
       <div className="min-h-screen bg-gray-100">
         <Navbar />
@@ -23,5 +25,6 @@ export default function About() {
         <Footer />
       </div>
     </main>
+    </PageLayout>
   );
 }

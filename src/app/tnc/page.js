@@ -4,6 +4,7 @@ import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import { Josefin_Sans } from 'next/font/google';
 import FixedWhatsapp from '../../../components/FixedWhatsapp';
+import PageLayout from '../../../components/PageLayout';
 
 const josfin = Josefin_Sans({
     subsets: ['latin'],
@@ -13,6 +14,7 @@ const josfin = Josefin_Sans({
 
 const App = () => {
   return (
+    <PageLayout>
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
         <Navbar />
@@ -21,6 +23,7 @@ const App = () => {
       <FixedWhatsapp />
     </div>
     </main>
+    </PageLayout>
   );
 };
 

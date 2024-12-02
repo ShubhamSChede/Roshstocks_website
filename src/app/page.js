@@ -8,6 +8,8 @@ import FadeInOnScroll from '../../components/FadeInOnScroll';
 import FixedWhatsappButton from '../../components/FixedWhatsapp';
 import { Josefin_Sans } from 'next/font/google';
 import Timeline from '../../components/HorizontalTimeline';
+import PageLayout from '../../components/PageLayout';
+import Stats from '../../components/Stats';
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
@@ -81,7 +83,7 @@ export default function Home() {
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-
+      <PageLayout>
       {/* Slider Section */}
       {isClient ? (
   <div className="w-full overflow-hidden">
@@ -155,6 +157,8 @@ export default function Home() {
   </section>
 </FadeInOnScroll>
 
+  <Stats/>
+
       <section className="pb-2 relative">
         <div className="max-w-7xl mx-auto px-4  sm:px-6 lg:px-8">
         <h2 className="text-3xl font-extrabold text-gray-900 mb-8 flex items-center justify-center">
@@ -204,8 +208,9 @@ export default function Home() {
      <FixedWhatsappButton/>
 
       <Footer />
-      
+      </PageLayout> 
     </div>
     </main>
+   
   )
 }
