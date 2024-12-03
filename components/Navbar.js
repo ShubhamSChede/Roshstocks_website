@@ -1,10 +1,18 @@
 "use client";
 
-import Link from 'next/link'
-import { useState } from 'react'
+import Link from 'next/link';
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname(); // Hook to get the current path
+
+  const getLinkClass = (href) => {
+    return pathname === href
+      ? "text-white md:bg-rose-900 md:hover:bg-rose-950 px-3 py-2 rounded-md text-sm font-medium" // Active link (desktop only)
+      : "text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium"; // Inactive link
+  };
 
   return (
     <nav className="bg-red-950 shadow-lg">
@@ -16,12 +24,12 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-4">
-                <Link href="/" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium ">Home</Link>
-                <Link href="/faqs" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Process</Link>
-                <Link href="/categories" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Gallery</Link>
-                <Link href="/about" className="text-white  hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium ">About me</Link>
-                <Link href="/reviews" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Reviews</Link>
-                <Link href="/tnc" className="text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">T&C</Link>             
+                <Link href="/" className={getLinkClass("/")}>Home</Link>
+                <Link href="/faqs" className={getLinkClass("/faqs")}>Process</Link>
+                <Link href="/categories" className={getLinkClass("/categories")}>Gallery</Link>
+                <Link href="/about" className={getLinkClass("/about")}>About me</Link>
+                <Link href="/reviews" className={getLinkClass("/reviews")}>Reviews</Link>
+                <Link href="/tnc" className={getLinkClass("/tnc")}>T&C</Link>
               </div>
             </div>
           </div>
@@ -44,7 +52,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-     
+
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 flex-row items-center sm:px-3">
@@ -58,5 +66,5 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }

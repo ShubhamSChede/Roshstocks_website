@@ -11,7 +11,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Roshstocks</h3>
             <p className="mb-4">Making the world a better place through constructing elegant hierarchies.</p>
-            <p>&copy; {new Date().getFullYear()} Company Name. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Roshstocks. All rights reserved.</p>
           </div>
 
           {/* Quick Links */}
@@ -19,9 +19,12 @@ export default function Footer() {
             <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-white transition-colors duration-300">Home</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors duration-300">About</Link></li>
-              <li><Link href="/services" className="hover:text-white transition-colors duration-300">Services</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors duration-300">Contact</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors duration-300">About me</Link></li>
+              <li><Link href="/faqs" className="hover:text-white transition-colors duration-300">Process</Link></li>
+              <li><Link href="/categories" className="hover:text-white transition-colors duration-300">Categories</Link></li>
+              <li><Link href="/reviews" className="hover:text-white transition-colors duration-300">Reviews</Link></li>
+              <li><Link href="/tnc" className="hover:text-white transition-colors duration-300">TnC</Link></li>
+    
             </ul>
           </div>
 
@@ -29,10 +32,10 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li>123 Business Street</li>
-              <li>City, State 12345</li>
-              <li>Email: info@company.com</li>
-              <li>Phone: (123) 456-7890</li>
+              <li>123 road</li>
+              <li>City, Liecester</li>
+              <li>Email: roshstocks@gmail.com</li>
+              <li>Phone: (71) 123456-7890</li>
             </ul>
           </div>
         </div>

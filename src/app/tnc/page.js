@@ -14,16 +14,17 @@ const josfin = Josefin_Sans({
 
 const App = () => {
   return (
-    <PageLayout>
+    
     <main className={josfin.className}>
+      <PageLayout>
     <div className="min-h-screen bg-gray-100">
         <Navbar />
       <TermsAndConditions />
       <Footer />
       <FixedWhatsapp />
     </div>
-    </main>
     </PageLayout>
+    </main>  
   );
 };
 

@@ -24,9 +24,6 @@ module.exports = {
           '50%': { transform: 'translateY(-10px)' },
         },
       },
-      fontFamily: {
-        rochester: ['var(--font-rochester)', ...fontFamily.sans],
-      },
     },
   },
   plugins: [],

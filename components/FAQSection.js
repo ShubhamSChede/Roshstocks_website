@@ -4,26 +4,35 @@ import PageLayout from './PageLayout';
 
 const faqs = [
   {
-    question: "What is Next.js?",
-    answer: "Next.js is a React framework that enables functionality such as server-side rendering and generating static websites for React-based web applications."
+    question: "What are digital wedding invites?",
+    answer: "Digital wedding invites are beautifully designed online invitations delivered electronically. They combine stunning visuals with interactive features like RSVP forms, event details, and reminders, offering a modern alternative to traditional paper invites."
   },
   {
-    question: "How do I get started with Tailwind CSS?",
-    answer: "To get started with Tailwind CSS, you need to install it via npm, add it to your PostCSS configuration, and include it in your CSS. Then you can start using Tailwind's utility classes in your HTML."
+    question: "Why should I choose your digital invites?",
+    answer: "Our digital invites are eco-friendly, cost-effective, and fully customizable to match your wedding theme. We offer unique designs, quick delivery, and features like RSVP tracking, personalized links, and multimedia options such as music and animations."
   },
   {
-    question: "What are the benefits of using Tailwind CSS?",
-    answer: "Tailwind CSS provides a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override."
+    question: "Can you create custom designs for my invites?",
+    answer: "Absolutely! We specialize in creating bespoke digital wedding invites tailored to your vision. Share your ideas, themes, or inspirations, and we’ll craft a one-of-a-kind invitation that reflects your style and story."
   },
   {
-    question: "Is Tailwind CSS responsive?",
-    answer: "Yes, Tailwind CSS is fully responsive. It includes a comprehensive set of responsive variants that make it easy to build responsive interfaces."
+    question: "How does the process work?",
+    answer: "It’s simple! Choose a design from our collection or request a custom design. Once finalized, we’ll send you the digital invite in your preferred format. You can then share it with your guests via email, messaging apps, or social media."
   },
   {
-    question: "Can I use Tailwind with Next.js?",
-    answer: "Absolutely! Tailwind CSS works great with Next.js. You can easily set it up in your Next.js project and start using Tailwind's utility classes right away."
+    question: "What makes your digital invites secure?",
+    answer: "We prioritize your privacy. Our invites can be shared via password-protected links or private invitations, ensuring your event details remain secure and accessible only to your intended guests."
+  },
+  {
+    question: "Do you offer support for RSVP tracking?",
+    answer: "Yes, all our invites come with RSVP tracking features. We can integrate RSVP forms directly into your invite, helping you manage your guest list seamlessly."
+  },
+  {
+    question: "What formats do you provide for the invites?",
+    answer: "We provide flexible formats, including downloadable PDF and image files, as well as interactive links to web-based invites. This ensures compatibility across email, messaging apps, and social media platforms."
   }
 ];
+
 
 function FAQItem({ question, answer }) {
   const [isOpen, setIsOpen] = useState(false);

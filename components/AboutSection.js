@@ -2,8 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import AboutButtons from './AboutButtons';
 
+
 const AboutSection = () => {
-  // Variants for text animation
+
   const textVariant = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
@@ -36,6 +37,7 @@ const AboutSection = () => {
   };
 
   return (
+    
     <section className="mb-2 w-full">
       <div className="flex flex-col md:flex-row items-center gap-8 w-full">
         {/* Left Content */}
