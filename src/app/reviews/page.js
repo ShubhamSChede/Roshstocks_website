@@ -145,10 +145,11 @@ export default function ReviewComponent() {
   };
 
   return (
-    <PageLayout>
+   
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
       <Navbar />
+      <PageLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6 mt-10">Customer Reviews</h1>
 
@@ -244,8 +245,9 @@ export default function ReviewComponent() {
       </div>
       <FixedWhatsappButton />
       <Footer />
+      </PageLayout>
     </div>
     </main>
-    </PageLayout>
+
   );
 }

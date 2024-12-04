@@ -16,17 +16,19 @@ const josfin = Josefin_Sans({
 
 export default function FAQs() {
   return (
-    <PageLayout>
+  
    <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
       <Navbar />
+      <PageLayout>
       <OrderGuide />
       <FAQSection />
       <FixedWhatsappButton />
       <Footer />
+      </PageLayout>
     </div>
         
    </main>
-   </PageLayout>
+
   );
 }

@@ -5,6 +5,7 @@ import CategorySearch from "../../../components/CatergorySearch";
 import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
 import { Josefin_Sans } from "next/font/google";
+import PageLayout from "../../../components/PageLayout";
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
@@ -15,9 +16,11 @@ export default function Categories() {
   return (
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
+      <PageLayout>
      <Navbar/>
      <CategorySearch/>
      <Footer/>
+     </PageLayout>
     </div>
     </main>
   )

@@ -16,14 +16,16 @@ const App = () => {
   return (
     
     <main className={josfin.className}>
-      <PageLayout>
+    
     <div className="min-h-screen bg-gray-100">
         <Navbar />
+        <PageLayout>
       <TermsAndConditions />
       <Footer />
       <FixedWhatsapp />
+      </PageLayout>
     </div>
-    </PageLayout>
+    
     </main>  
   );
 };

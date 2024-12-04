@@ -15,16 +15,18 @@ const josfin = Josefin_Sans({
 
 export default function About() {
   return (
-    <PageLayout>
+    
     <main className={josfin.className}>
       <div className="min-h-screen bg-gray-100">
         <Navbar />
+        <PageLayout>
         <AboutSection />
         <JourneySection />
         <FixedWhatsappButton />
         <Footer />
+        </PageLayout>
       </div>
     </main>
-    </PageLayout>
+   
   );
 }
