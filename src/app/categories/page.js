@@ -16,8 +16,8 @@ export default function Categories() {
   return (
     <main className={josfin.className}>
     <div className="min-h-screen bg-gray-100">
-      <PageLayout>
      <Navbar/>
+     <PageLayout>
      <CategorySearch/>
      <Footer/>
      </PageLayout>
