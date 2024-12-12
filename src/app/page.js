@@ -216,7 +216,6 @@
 
 
 'use client';
-import { useState, useEffect } from 'react';
 import { Josefin_Sans } from 'next/font/google';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -227,6 +226,8 @@ import Testimonials from '../../components/Testimonials';
 import Stats from '../../components/Stats';
 import PageLayout from '../../components/PageLayout';
 import FixedWhatsappButton from '../../components/FixedWhatsapp';
+import WhyChoose from '../../components/whydigital';
+import PageLoader from '../../components/PageLoader'; // Import the new loader
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
@@ -234,33 +235,23 @@ const josfin = Josefin_Sans({
 });
 
 export default function Home() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true); 
-  }, []);
-
   return (
     <main className={josfin.className}>
       <div className="min-h-screen bg-gray-100">
         <Navbar />
         <PageLayout>
-          {isClient ? (
-            <>
-              <HeroSlider />
-              <FeaturedCategories />
-              <Stats />
-              <OrderProcess />
-              <Testimonials />
-              <FixedWhatsappButton />
-            </>
-          ) : (
-            <p className="text-center py-20">Loading...</p>
-          )}
+          <PageLoader>
+            <HeroSlider />
+            <FeaturedCategories />
+            <Stats />
+            <WhyChoose />
+            <OrderProcess />
+            <Testimonials />
+            <FixedWhatsappButton />
+          </PageLoader>
           <Footer />
         </PageLayout> 
       </div>
     </main>
-   
   )
 }
