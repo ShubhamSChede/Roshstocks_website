@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import PageLayout from './PageLayout';
+
 
 const faqs = [
   {
@@ -34,7 +35,7 @@ const faqs = [
 ];
 
 
-function FAQItem({ question, answer }) {
+const FAQItem = memo(({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -68,18 +69,26 @@ function FAQItem({ question, answer }) {
       )}
     </div>
   );
-}
+});
 
-export default function FAQSection() {
+FAQItem.displayName = 'FAQItem';
+
+// Memoize the entire FAQSection
+const FAQSection = memo(() => {
   return (
     <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-      <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Frequently Asked Questions</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Frequently Asked Questions
+      </h1>
       <div className="mt-8">
         {faqs.map((faq, index) => (
           <FAQItem key={index} question={faq.question} answer={faq.answer} />
         ))}
       </div>
     </div>
-    
   );
-}
+});
+
+FAQSection.displayName = 'FAQSection';
+
+export default FAQSection;

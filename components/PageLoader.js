@@ -1,103 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const PageLoader = ({ children }) => {
+// Create loading context
+const LoadingContext = createContext({
+  isLoading: true,
+  setIsLoading: () => {},
+  startLoading: () => {},
+  stopLoading: () => {}
+});
+
+// Loading provider component
+export const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingCount, setLoadingCount] = useState(0);
+
+  const startLoading = () => {
+    setLoadingCount(prev => prev + 1);
+  };
+
+  const stopLoading = () => {
+    setLoadingCount(prev => Math.max(0, prev - 1));
+  };
 
   useEffect(() => {
-    // Simulate loading time or use actual loading logic
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Adjust timeout as needed
+    setIsLoading(loadingCount > 0);
+  }, [loadingCount]);
 
-    return () => clearTimeout(timer);
-  }, []);
+  return (
+    <LoadingContext.Provider value={{ isLoading, setIsLoading, startLoading, stopLoading }}>
+      {children}
+    </LoadingContext.Provider>
+  );
+};
 
-  if (isLoading) {
-    return (
-      <StyledWrapper>
-        <div className="loader-container">
-          <div className="loader" />
+// Custom hook to use loading context
+export const useLoading = () => {
+  const context = useContext(LoadingContext);
+  if (!context) {
+    throw new Error('useLoading must be used within a LoadingProvider');
+  }
+  return context;
+};
+
+// PageLoader component
+const PageLoader = ({ children }) => {
+  const { isLoading } = useLoading();
+
+  if (!isLoading) {
+    return <>{children}</>;
+  }
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+      <div className="relative">
+        <div className="relative">
+          <div className="absolute w-16 h-16 bg-pink-500 rounded-full -translate-x-7 -translate-y-7 animate-heartbeat-l" />
+          <div className="absolute w-16 h-16 bg-pink-500 rounded-full translate-x-7 -translate-y-7 animate-heartbeat-r" />
+          <div className="w-16 h-16 bg-pink-500 rotate-45 animate-square-pulse" />
         </div>
-      </StyledWrapper>
-    );
-  }
-
-  return children;
-}
-
-const StyledWrapper = styled.div`
-  .loader-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    z-index: 9999;
-  }
-
-  .loader {
-    width: 50px;
-    aspect-ratio: 1.154;
-    position: relative;
-    background: conic-gradient(
-      from 120deg at 50% 64%,
-      #0000,
-      #ff1919 1deg 120deg,
-      #0000 121deg
-    );
-    animation: l27-0 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
-  }
-
-  .loader:before,
-  .loader:after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    transform-origin: 50% 66%;
-    animation: l27-1 1.5s infinite;
-  }
-
-  .loader:after {
-    --s: -1;
-  }
-
-  @keyframes l27-0 {
-    0%,
-    30% {
-      transform: rotate(0);
-    }
-
-    70% {
-      transform: rotate(120deg);
-    }
-
-    70.01%,
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes l27-1 {
-    0% {
-      transform: rotate(calc(var(--s, 1) * 120deg)) translate(0);
-    }
-
-    30%,
-    70% {
-      transform: rotate(calc(var(--s, 1) * 120deg))
-        translate(calc(var(--s, 1) * -5px), 10px);
-    }
-
-    100% {
-      transform: rotate(calc(var(--s, 1) * 120deg)) translate(0);
-    }
-  }
-`;
+        <div className="absolute left-1/2 -translate-x-1/2 mt-6 w-16 h-4 bg-gray-200 rounded-full animate-shadow-pulse" />
+      </div>
+    </div>
+  );
+};
 
 export default PageLoader;

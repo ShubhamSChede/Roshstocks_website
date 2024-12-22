@@ -4,7 +4,8 @@ import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import { Josefin_Sans } from 'next/font/google';
 import FixedWhatsapp from '../../../components/FixedWhatsapp';
-import PageLayout from '../../../components/PageLayout';
+//import PageLayout from '../../../components/PageLayout';
+import { LoadingProvider } from '../../../components/PageLoader';
 
 const josfin = Josefin_Sans({
     subsets: ['latin'],
@@ -14,19 +15,17 @@ const josfin = Josefin_Sans({
 
 const App = () => {
   return (
-    
+    <LoadingProvider>
     <main className={josfin.className}>
     
     <div className="min-h-screen bg-gray-100">
         <Navbar />
-        <PageLayout>
       <TermsAndConditions />
       <Footer />
       <FixedWhatsapp />
-      </PageLayout>
-    </div>
-    
-    </main>  
+    </div>    
+    </main> 
+    </LoadingProvider> 
   );
 };
 
