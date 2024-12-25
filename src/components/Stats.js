@@ -42,24 +42,28 @@ const StatsStrip = () => {
     >
       <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center text-center lg:text-left gap-8">
         
-        {/* First Stat */}
-        <motion.div
-          className="text-2xl lg:text-3xl font-bold px-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 1 }}
-        >
-          Trusted by{' '}
-          <motion.span
-            className="text-5xl lg:text-6xl text-red-600"
-            animate={controls}
-            initial={{ count: 0 }}
-            onUpdate={(latest) => isVisible && setCount(Math.round(latest.count))}
-          >
-            {count}
-          </motion.span>
-          + Happy Clients!
-        </motion.div>
+{/* First Stat */}
+<motion.div
+  className="text-2xl lg:text-3xl font-bold px-2"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: isVisible ? 1 : 0 }}
+  transition={{ duration: 1 }}
+>
+  Trusted by{' '}
+  <motion.span
+    className="text-5xl lg:text-6xl text-red-600"
+    animate={controls}
+    initial={{ count: 0 }}
+    onUpdate={(latest) => isVisible && setCount(Math.round(latest.count))}
+  >
+    {count}
+    +
+  </motion.span>
+  <span className="lg:hidden">
+    <br />
+  </span>
+  Happy Clients!
+  </motion.div>
 
         {/* Second Stat */}
         <motion.div

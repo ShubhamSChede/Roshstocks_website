@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Josefin_Sans } from 'next/font/google';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import FixedWhatsappButton from '../../../components/FixedWhatsapp';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import FixedWhatsappButton from '../../components/FixedWhatsapp';
 //import PageLayout from '../../../components/PageLayout';
-import AddReview from '../../../components/addreview';
-import { RatingStatistics } from '../../../components/RatingStatistics';
-import { ReviewGrid } from '../../../components/ReviewGrid';
-import { LoadingProvider } from '../../../components/PageLoader';
+import AddReview from '../../components/addreview';
+import { RatingStatistics } from '../../components/RatingStatistics';
+import { ReviewGrid } from '../../components/ReviewGrid';
+import { LoadingProvider } from '../../components/PageLoader';
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
