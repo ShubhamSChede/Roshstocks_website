@@ -23,19 +23,16 @@ const StatsStrip = () => {
       }
     );
   
-    // Store the current value of the ref
     const currentRef = sectionRef.current;
   
     if (currentRef) {
       observer.observe(currentRef);
     }
 
-    // Cleanup observer on component unmount
     return () => {
-    // Use the stored value in cleanup
-    if (currentRef) {
-      observer.unobserve(currentRef);
-    }
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
     };
   }, [controls, isVisible]);
 
@@ -46,28 +43,28 @@ const StatsStrip = () => {
     >
       <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center text-center lg:text-left gap-8">
         
-{/* First Stat */}
-<motion.div
-  className="text-2xl lg:text-3xl font-bold px-2"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: isVisible ? 1 : 0 }}
-  transition={{ duration: 1 }}
->
-  Trusted by{' '}
-  <motion.span
-    className="text-5xl lg:text-6xl text-red-600"
-    animate={controls}
-    initial={{ count: 0 }}
-    onUpdate={(latest) => isVisible && setCount(Math.round(latest.count))}
-  >
-    {count}
-    +
-  </motion.span>
-  <span className="lg:hidden">
-    <br />
-  </span>
-  Happy Clients!
-  </motion.div>
+        {/* First Stat */}
+        <motion.div
+          className="text-2xl lg:text-3xl font-bold px-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isVisible ? 1 : 0 }}
+          transition={{ duration: 1 }}
+        >
+          Trusted by{' '}
+          <motion.span
+            className="text-5xl lg:text-6xl text-red-600"
+            animate={controls}
+            initial={{ count: 0 }}
+            onUpdate={(latest) => isVisible && setCount(Math.round(latest.count))}
+          >
+            {count}
+            +
+          </motion.span>
+          <span className="lg:hidden">
+            <br />
+          </span>
+          Happy Clients!
+        </motion.div>
 
         {/* Second Stat */}
         <motion.div
@@ -76,7 +73,7 @@ const StatsStrip = () => {
           animate={{ opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 1.5, delay: 0.5 }}
         >
-          We've created{' '}
+          We&apos;ve created{' '}
           <span className="font-bold text-red-600">1000+</span> Stunning
           Designs and crafted{' '}
           <span className="font-bold text-red-600">750+</span> Unique Wedding

@@ -102,4 +102,6 @@ const OrderGuide =  memo(() => {
   );
 });
 
+OrderGuide.displayName = 'OrderGuide';
+
 export default memo(OrderGuide);
