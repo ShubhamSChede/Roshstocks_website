@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AlertCircle } from 'lucide-react';
 import Script from 'next/script';
+import Image from 'next/image';
+
 
 const CategorySearch = () => {
     const [category, setCategory] = useState('');
@@ -27,7 +29,7 @@ const CategorySearch = () => {
 
     useEffect(() => {
         fetchInvites();
-    }, [category]);
+    }, [fetchInvites]);
 
     // Effect to process Instagram embeds after render
     useEffect(() => {
@@ -91,7 +93,7 @@ const CategorySearch = () => {
 
         if (invite.imageUrl) {
             return (
-                <img 
+                <Image 
                     src={invite.imageUrl} 
                     alt={invite.category} 
                     className="w-full h-full object-cover"

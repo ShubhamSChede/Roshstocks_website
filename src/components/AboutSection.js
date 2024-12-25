@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import AboutButtons from './AboutButtons';
-
+import Image from 'next/image';
 
 const AboutSection = () => {
 
@@ -90,10 +90,12 @@ const AboutSection = () => {
           viewport={{ once: true }}
           variants={imageVariant}
         >
-          <img
+          <Image
             src="/roshaniimage.jpg"
             alt="Roshani_chede_image"
             className="mb-6 border-4 shadow-lg w-full h-auto object-contain"
+            width={500}
+            height={300}
           />
         </motion.div>
       </div>

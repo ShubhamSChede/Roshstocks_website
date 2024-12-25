@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import FadeInOnScroll from './FadeInOnScroll';
+import Image from 'next/image';
 
 const featuredCategories = [
   {
@@ -42,9 +43,11 @@ const FeaturedCategories = () => {
             >
               <div className="relative w-full max-w-md justify-center">
                 <div className="relative w-3/4 justify-center" style={{ aspectRatio: '3 / 4' }}>
-                  <img
+                  <Image
                     src={category.imageUrl}
                     alt={category.name}
+                    width={400}
+                    height={400}
                     className="w-full h-full object-fill rounded-lg justify-center"
                   />
                 </div>
