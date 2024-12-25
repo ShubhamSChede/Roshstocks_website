@@ -19,19 +19,23 @@ const StatsStrip = () => {
         }
       },
       {
-        threshold: 0.1, // Trigger when 10% of the component is visible
+        threshold: 0.1,
       }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+  
+    // Store the current value of the ref
+    const currentRef = sectionRef.current;
+  
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     // Cleanup observer on component unmount
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+    // Use the stored value in cleanup
+    if (currentRef) {
+      observer.unobserve(currentRef);
+    }
     };
   }, [controls, isVisible]);
 

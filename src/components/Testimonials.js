@@ -1,8 +1,14 @@
 import FadeInOnScroll from './FadeInOnScroll';
 
 const testimonials = [
-  { name: 'Sushant & Payal', content: 'This platform has revolutionized my shopping experience!' },
-  { name: 'Pankaj & Radhika', content: 'I found exactly what I was looking for. Highly recommended!' },
+  { 
+    name: "Sushant & Payal", 
+    content: "This platform has revolutionized my shopping experience!" 
+  },
+  { 
+    name: "Pankaj & Radhika", 
+    content: "I found exactly what I was looking for. Highly recommended!" 
+  },
 ];
 
 const Testimonials = () => {
@@ -25,7 +31,7 @@ const Testimonials = () => {
                     <span key={i} className="text-yellow-500 text-lg">&#9733;</span>
                   ))}
                 </div>
-                <p className="text-gray-600 mb-4">"{testimonial.content}"</p>
+                <p className="text-gray-600 mb-4">&quot;{testimonial.content}&quot;</p>
               </div>
             ))}
           </div>
