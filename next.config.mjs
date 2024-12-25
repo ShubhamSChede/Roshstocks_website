@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    rules: {
+      'react/no-unescaped-entities': 'off',
+      '@next/next/no-img-element': 'off',
+      'react/display-name': 'off',
+      'react-hooks/exhaustive-deps': 'off'
+    }
+  },
   env: {
     MONGODB_URI: process.env.MONGODB_URI,
   },

@@ -1,9 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,  } from 'react';
 import axios from 'axios';
 import { AlertCircle } from 'lucide-react';
 import Script from 'next/script';
 import Image from 'next/image';
+import { useCallback } from 'react';
 
 
 const CategorySearch = () => {
@@ -11,14 +12,14 @@ const CategorySearch = () => {
     const [invites, setInvites] = useState([]);
     const [mediaErrors, setMediaErrors] = useState({});
 
-    const fetchInvites = async () => {
+    const fetchInvites = useCallback(async () => {
         try {
             const response = await axios.get(`/api/invites?category=${category}`);
             setInvites(response.data);
         } catch (error) {
             console.error('Error fetching invites:', error);
         }
-    };
+    }, [category]);
 
     // Function to reload Instagram embed script
     const reloadInstagramEmbeds = () => {
