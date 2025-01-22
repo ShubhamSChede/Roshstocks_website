@@ -1,33 +1,38 @@
-// src/app/api/invites/route.js
-import connectToDatabase from '../../../../utils/dbConnect';
+import { IncomingForm } from 'formidable';
+import cloudinary from '../../utils/cloudinary';
+import dbConnect from '../../utils/dbConnect';
 import Invite from '../../../../models/Invite';
 
-export async function GET(req) {
-    await connectToDatabase();
-    const url = new URL(req.url);
-    const category = url.searchParams.get('category');
+// app/api/invites/route.js
+import { NextResponse } from 'next/server';
 
-    try {
-        console.log('Fetching invites with category:', category);
-        const invites = await Invite.find(category ? { category } : {});
-        console.log('Invites fetched successfully:', invites);
-        return new Response(JSON.stringify(invites), { status: 200 });
-    } catch (error) {
-        console.error('Error fetching invites:', error);
-        return new Response(JSON.stringify({ message: 'Failed to fetch invites', error: error.message }), { status: 500 });
-    }
+export async function GET() {
+  try {
+    await dbConnect();
+    const invites = await Invite.find({}).sort({ createdAt: -1 });
+    return NextResponse.json(invites);
+  } catch (error) {
+    console.error('Error fetching invites:', error);
+    return NextResponse.json({ error: 'Error fetching invites' }, { status: 500 });
+  }
 }
 
+export async function POST(request) {
+  try {
+    await dbConnect();
+    const data = await request.json();
+    
+    const invite = await Invite.create({
+      title: data.title,
+      imageUrl: data.imageUrl,
+      cloudinaryId: data.cloudinaryId,
+      tags: data.tags,
+      type: data.type,
+    });
 
-export async function POST(req) {
-    await connectToDatabase();
-    try {
-        const inviteData = await req.json();
-        const invite = new Invite(inviteData);
-        await invite.save();
-        return new Response(JSON.stringify(invite), { status: 201 });
-    } catch (error) {
-        console.error('Error creating invite:', error);
-        return new Response(JSON.stringify({ message: 'Failed to create invite', error: error.message }), { status: 500 });
-    }
+    return NextResponse.json(invite, { status: 201 });
+  } catch (error) {
+    console.error('Error creating invite:', error);
+    return NextResponse.json({ error: 'Error creating invite' }, { status: 500 });
+  }
 }
