@@ -11,8 +11,8 @@ const InviteSchema = new mongoose.Schema({
     required: true 
   },
   cloudinaryId: { 
-    type: String, 
-    required: true 
+    type: String,
+    default: null
   },
   tags: [{ 
     type: String 
@@ -22,10 +22,15 @@ const InviteSchema = new mongoose.Schema({
     enum: ['photo', 'video'], 
     required: true 
   },
+  isYoutubeVideo: {
+    type: Boolean,
+    default: false
+  },
   createdAt: { 
     type: Date, 
     default: Date.now 
   }
 });
 
-export default mongoose.models.Invite || mongoose.model('Invite', InviteSchema);
+const Invite = mongoose.models.Invite || mongoose.model('Invite', InviteSchema);
+export default Invite;

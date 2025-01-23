@@ -13,43 +13,81 @@ cloudinary.config({
 export async function POST(request) {
   try {
     const formData = await request.formData();
-    const file = formData.get('file');
     const title = formData.get('title');
     const tags = formData.get('tags').split(',').map(tag => tag.trim());
-    const type = formData.get('type');
+    const uploadType = formData.get('uploadType');
 
-    if (!file || !title || !tags || !type) {
+    if (!title || !tags || !uploadType) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Convert file to base64
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64File = `data:${file.type};base64,${buffer.toString('base64')}`;
-
-    // Upload to Cloudinary
-    const cloudinaryResponse = await cloudinary.uploader.upload(base64File, {
-      resource_type: 'auto',
-    });
-
-    // Connect to MongoDB and save invite
     await connectDB();
-    const invite = await Invite.create({
-      title,
-      imageUrl: cloudinaryResponse.secure_url,
-      cloudinaryId: cloudinaryResponse.public_id,
-      tags,
-      type,
-    });
 
-    return NextResponse.json(invite, { status: 201 });
+    if (uploadType === 'file') {
+      const file = formData.get('file');
+      if (!file) {
+        return NextResponse.json(
+          { error: 'No file uploaded' },
+          { status: 400 }
+        );
+      }
+
+      // Convert file to base64
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const base64File = `data:${file.type};base64,${buffer.toString('base64')}`;
+
+      // Upload to Cloudinary
+      const cloudinaryResponse = await cloudinary.uploader.upload(base64File, {
+        resource_type: 'auto',
+      });
+
+      const invite = new Invite({
+        title,
+        imageUrl: cloudinaryResponse.secure_url,
+        cloudinaryId: cloudinaryResponse.public_id,
+        tags,
+        type: formData.get('type'),
+        isYoutubeVideo: false
+      });
+
+      await invite.save();
+      return NextResponse.json(invite, { status: 201 });
+
+    } else if (uploadType === 'youtube') {
+      const youtubeVideoId = formData.get('youtubeVideoId');
+      if (!youtubeVideoId) {
+        return NextResponse.json(
+          { error: 'Invalid YouTube URL' },
+          { status: 400 }
+        );
+      }
+
+      const invite = new Invite({
+        title,
+        imageUrl: `https://www.youtube.com/embed/${youtubeVideoId}`,
+        tags,
+        type: 'video',
+        isYoutubeVideo: true,
+        cloudinaryId: null
+      });
+
+      await invite.save();
+      return NextResponse.json(invite, { status: 201 });
+    }
+
+    return NextResponse.json(
+      { error: 'Invalid upload type' },
+      { status: 400 }
+    );
+
   } catch (error) {
     console.error('Error uploading invite:', error);
     return NextResponse.json(
-      { error: 'Error uploading invite' },
+      { error: error.message || 'Error uploading invite' },
       { status: 500 }
     );
   }

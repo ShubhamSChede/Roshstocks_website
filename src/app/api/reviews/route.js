@@ -1,5 +1,5 @@
 // route.js
-import connectToDatabase from '../../../../utils/dbConnect';
+import connectToDatabase from '../../utils/dbConnect';
 import Review from '../../../../models/Review';
 
 export const GET = async () => {
