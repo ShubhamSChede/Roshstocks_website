@@ -27,7 +27,7 @@ const NavLink = memo(({ href, label, className, isActive }) => {
   };
   
   const linkClass = `${className} ${isLoading ? 'opacity-70' : ''} ${
-    isActive ? 'text-white md:bg-rose-900' : ''
+    isActive ? 'text-white md:bg-rose-900 ' : ''
   }`;
 
   return (
@@ -60,17 +60,17 @@ const Navbar = () => {
 
   // Memoized class getter with instant feedback
   const getLinkClass = useCallback((href) => {
-    const baseClass = "text-white hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200";
+    const baseClass = "text-black hover:text-red-950 px-3 py-2 rounded-md text-md font-bold transition-all duration-200";
     if (!mounted) return baseClass; // Return base class while hydrating
     return pathname === href
-      ? `${baseClass} text-white md:bg-rose-900 md:hover:bg-rose-950`
+      ? `${baseClass} text-white md:bg-rose-900 md:hover:bg-rose-500`
       : baseClass;
   }, [pathname, mounted]);
 
   const mobileMenuClass = "text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center";
 
   return (
-    <nav className="bg-red-950 shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-[#C8A2C8] to-[#FFB6C1] opacity-90 shadow-lg sticky top-0 h-16 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -78,7 +78,7 @@ const Navbar = () => {
               <Link 
                 href="/" 
                 prefetch={true} 
-                className={`text-white font-bold text-xl ${pathname === '/' && mounted ? 'text-red-300' : ''}`}
+                className={`text-white font-bold text-xl ${pathname === '/' && mounted ? 'text-red-950' : ''}`}
               >
                 Roshstocks
               </Link>

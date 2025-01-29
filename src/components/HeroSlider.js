@@ -7,7 +7,7 @@ import Image from 'next/image';
 const Slider = dynamic(() => import("react-slick").then(mod => mod.default), {
   ssr: false,
   loading: () => (
-    <div className="w-full bg-gray-200 animate-pulse" style={{ aspectRatio: '3/1' }} />
+    <div className="w-full bg-gray-200 animate-pulse h-[300px]" />
   ),
 });
 
@@ -28,6 +28,7 @@ const HeroSlider = () => {
     autoplaySpeed: 3000,
     arrows: false,
     lazyLoad: 'progressive',
+    pauseOnHover: false
   };
 
   const slides = [
@@ -37,9 +38,7 @@ const HeroSlider = () => {
   ];
 
   if (!isClient) {
-    return (
-      <div className="w-full bg-gray-200" style={{ aspectRatio: '3/1' }} />
-    );
+    return <div className="w-full bg-gray-200 h-[300px]" />;
   }
 
   return (
@@ -47,13 +46,14 @@ const HeroSlider = () => {
       <Slider {...sliderSettings}>
         {slides.map((slide) => (
           <div key={slide.id} className="relative w-full">
-            <div style={{ aspectRatio: '3/1', position: 'relative' }}>
+            <div className="relative w-full h-auto">
               <Image
                 src={slide.src}
                 alt={`Slide ${slide.id}`}
-                fill
+                width={1920} // Adjust to your original image width
+                height={1080} // Adjust to your original image height
                 priority={slide.id === 1}
-                className="object-cover"
+                className="object-cover w-full h-auto"
                 sizes="100vw"
                 quality={85}
                 placeholder="blur"

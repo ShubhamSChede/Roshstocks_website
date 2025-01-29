@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import FadeInOnScroll from './FadeInOnScroll';
 import Image from 'next/image';
+import ExploreCategoryButton from './ExploreCategoryButton';
 
 const featuredCategories = [
   {
@@ -63,12 +64,7 @@ const FeaturedCategories = () => {
           ))}
         </div>
         <div className="text-center mt-8">
-          <Link
-            href="/categories"
-            className="bg-white text-red-950 py-3 px-8 rounded-full font-bold text-lg hover:bg-indigo-100 transition duration-300"
-          >
-            Explore Categories
-          </Link>
+          <ExploreCategoryButton />
         </div>
       </section>
     </FadeInOnScroll>

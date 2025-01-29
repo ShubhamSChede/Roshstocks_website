@@ -1,3 +1,4 @@
+'use client'
 import { useState, memo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';

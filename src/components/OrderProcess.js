@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Timeline from './HorizontalTimeline';
+  import AnimatedGuideButton from './AnimatedGuideButton';
 
 const OrderProcess = () => {
   return (
@@ -12,12 +13,7 @@ const OrderProcess = () => {
         </h2>
       </div>
       <div className="text-center mt-8 mb-10">
-        <Link
-          href="/faqs"
-          className="bg-white text-red-950 rounded-full font-bold text-md hover:bg-red-100 transition duration-300 m-5 underline"
-        >
-          View the complete guide to orders
-        </Link>
+      <AnimatedGuideButton href="/faqs" />
       </div>
       <Timeline />
     </section>
