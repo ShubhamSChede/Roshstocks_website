@@ -10,6 +10,7 @@ import { RatingStatistics } from '../../components/RatingStatistics';
 import { ReviewGrid } from '../../components/ReviewGrid';
 import { LoadingProvider } from '../../components/PageLoader';
 
+
 const josfin = Josefin_Sans({
   subsets: ['latin'],
   weight: '400',
@@ -30,6 +31,7 @@ const formatDate = (dateString) => {
 };
 
 export default function ReviewComponent() {
+  const [isLoading, setIsLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -46,6 +48,7 @@ export default function ReviewComponent() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch('/api/reviews', {
           method: 'GET',
         });
@@ -68,6 +71,7 @@ export default function ReviewComponent() {
             }
           });
           setRatingDistribution(distribution);
+          setIsLoading(false);
         } else {
           console.error('Failed to fetch reviews:', response.status);
         }
@@ -162,6 +166,7 @@ export default function ReviewComponent() {
               reviews={reviews} 
               displayStars={displayStars} 
               formatDate={formatDate}
+              isLoading={isLoading} 
             />
           </div>
           <FixedWhatsappButton />

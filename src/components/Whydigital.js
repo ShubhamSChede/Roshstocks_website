@@ -45,7 +45,7 @@ const HexagonCard = ({ icon, title, description, color, gradient, className = ''
         ${color} group-hover:shadow-2xl
         clip-path-hexagon`}>
         
-        <div className="absolute inset-0 bg-fuchsia-100 opacity-90 clip-path-hexagon" />
+        <div className="absolute inset-0 bg-pink-50 opacity-90 clip-path-hexagon" />
         
         <div className={`absolute inset-0 bg-gradient-to-br ${gradient} to-transparent 
           opacity-0 group-hover:opacity-10 clip-path-hexagon transition-opacity duration-500`} />

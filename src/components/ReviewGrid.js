@@ -1,12 +1,35 @@
-// components/ReviewGrid.js
 import React from 'react';
 import { motion } from 'framer-motion';
 
+const Loader = () => (
+  <div className="flex justify-center items-center min-h-[400px]">
+    <motion.div 
+      className="relative w-20 h-20"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+    >
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="w-4 h-4 bg-pink-500 rounded-full absolute top-0 left-1/2 transform -translate-x-1/2 opacity-90"></div>
+        <div className="w-4 h-4 bg-pink-400 rounded-full absolute top-1/4 right-0 opacity-80"></div>
+        <div className="w-4 h-4 bg-pink-300 rounded-full absolute bottom-1/4 right-0 opacity-70"></div>
+        <div className="w-4 h-4 bg-pink-200 rounded-full absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-60"></div>
+        <div className="w-4 h-4 bg-pink-300 rounded-full absolute bottom-1/4 left-0 opacity-70"></div>
+        <div className="w-4 h-4 bg-pink-400 rounded-full absolute top-1/4 left-0 opacity-80"></div>
+      </div>
+    </motion.div>
+  </div>
+);
+
 export const ReviewGrid = ({ 
-  reviews, 
+  reviews = [], 
   displayStars, 
-  formatDate 
+  formatDate,
+  isLoading = false 
 }) => {
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="mt-8 mb-10">
       {reviews.length > 0 ? (
@@ -52,3 +75,5 @@ export const ReviewGrid = ({
     </div>
   );
 };
+
+export default ReviewGrid;

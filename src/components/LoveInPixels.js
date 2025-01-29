@@ -15,10 +15,23 @@ const LoveInPixels = () => {
   };
 
   return (
-    <section className="bg-white min-h-80 px-6 py-12">
+    <section className="relative bg-white min-h-80 px-6 py-12 overflow-hidden">
+      {/* Background Image with Opacity */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('/svt.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.2
+        }}
+      />
+
+      {/* Content */}
       <motion.div
         ref={ref}
-        className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8"
+        className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8"
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         variants={variants}
@@ -30,8 +43,8 @@ const LoveInPixels = () => {
 
         {/* Text content - Right side on desktop, bottom on mobile */}
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
-            <span className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text">
+          <h1 className="text-7xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+            <span className="bg-gradient-to-r from-pink-500 via-pink-700 to-pink-900 text-transparent bg-clip-text">
               Love in Pixels
             </span>
           </h1>
