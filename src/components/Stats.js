@@ -39,7 +39,7 @@ const StatsStrip = () => {
   return (
     <div 
       ref={sectionRef}
-      className="w-full bg-gradient-to-r from-[#C8A2C8] to-[#FFB6C1] py-8 mb-10"
+      className="w-full bg-pink-50 py-8 mb-10"
     >
       <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center text-center lg:text-left gap-8">
         

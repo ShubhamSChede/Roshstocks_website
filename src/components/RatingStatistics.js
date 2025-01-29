@@ -12,7 +12,7 @@ export const RatingStatistics = ({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       {/* Average Rating Card */}
       <motion.div 
-        className="bg-white rounded-lg p-6 shadow-md"
+        className="bg-pink-50 rounded-lg p-6 shadow-md"
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 300 }}
@@ -26,7 +26,7 @@ export const RatingStatistics = ({
       </motion.div>
 
       {/* Rating Distribution Card */}
-      <div className="bg-white rounded-lg p-6 shadow-md">
+      <div className="bg-pink-50 rounded-lg p-6 shadow-md">
         <h2 className="text-2xl font-semibold mb-4">Rating Distribution</h2>
         {[5, 4, 3, 2, 1].map((star) => (
           <motion.div

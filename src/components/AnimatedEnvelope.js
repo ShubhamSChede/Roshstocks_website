@@ -29,15 +29,15 @@ const AnimatedEnvelope = () => {
 
           
           .envelope-flap {
-            animation: flapAnimation 4s ease-in-out infinite;
+            animation: flapAnimation 7s ease-in-out infinite;
           }
           
           .letter {
-            animation: letterAnimation 4s ease-in-out infinite;
+            animation: letterAnimation 7s ease-in-out infinite;
           }
 
           .heart {
-  animation: heartAnimation 4s ease-in-out infinite;
+  animation: heartAnimation 7s ease-in-out infinite;
 }
           
         `}

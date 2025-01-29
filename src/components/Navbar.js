@@ -70,7 +70,7 @@ const Navbar = () => {
   const mobileMenuClass = "text-white hover:bg-amber-950 hover:text-white block px-3 py-2 rounded-md text-base font-medium w-full text-center";
 
   return (
-    <nav className="bg-gradient-to-r from-[#C8A2C8] to-[#FFB6C1] opacity-90 shadow-lg sticky top-0 h-16 z-50">
+    <nav className="bg-gradient-to-r from-[#C8A2C8] to-[#FFB6C1] opacity-85 shadow-lg sticky top-0 h-16 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">

@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 // Memoize the step component
 const Step = memo(({ number, title, description, image, isReversed, extra }) => { // Changed children to extra
-  const containerClass = `flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-gray-100 p-6 rounded-xl shadow-lg`;
+  const containerClass = `flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 bg-pink-50 p-6 rounded-xl shadow-lg`;
 
   return (
     <motion.div 

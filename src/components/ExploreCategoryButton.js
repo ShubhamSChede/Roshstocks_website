@@ -15,7 +15,7 @@ const Button = () => {
 const StyledWrapper = styled.div`
   button {
     padding: 0.8em 1.8em;
-    border: 2px solid #C8A2C8;
+    border: 2px solid #FF0072;
     position: relative;
     overflow: hidden;
     background-color: transparent;
@@ -25,7 +25,7 @@ const StyledWrapper = styled.div`
     transition: 0.3s;
     z-index: 1;
     font-family: inherit;
-    color: #4a264a;
+    color: #FF0072;
     font-weight: bold;
     cursor: pointer;
   }
@@ -38,7 +38,7 @@ const StyledWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
-    background: #C8A2C8;
+    background: #FF0072;
     transition: 0.5s ease;
     display: block;
     z-index: -1;

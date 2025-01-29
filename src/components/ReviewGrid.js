@@ -17,7 +17,7 @@ export const ReviewGrid = ({
             return (
               <motion.div 
                 key={review._id} 
-                className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 border-2 border-red-700"
+                className="bg-pink-50 shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.05 }}
