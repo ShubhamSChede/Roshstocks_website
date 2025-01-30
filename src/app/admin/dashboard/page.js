@@ -19,9 +19,8 @@ function Dashboard() {
   });
 
   const fileInputRef = useRef(null);
-  // Initialize all form state with empty strings or appropriate default values
   const [title, setTitle] = useState('');
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]); // Changed to array for multiple files
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [tags, setTags] = useState('');
   const [type, setType] = useState('photo');
@@ -29,8 +28,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]); // For displaying selected files
 
-  // Handle YouTube video ID extraction
   const getYoutubeVideoId = (url) => {
     try {
       const urlObj = new URL(url);
@@ -57,13 +56,28 @@ function Dashboard() {
 
   const resetForm = () => {
     setTitle('');
-    setFile(null);
+    setFiles([]);
+    setSelectedFiles([]);
     setYoutubeUrl('');
     setTags('');
     setType('photo');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFiles(selectedFiles);
+    setSelectedFiles(selectedFiles.map(file => ({
+      name: file.name,
+      size: (file.size / 1024 / 1024).toFixed(2) + ' MB'
+    })));
+  };
+
+  const removeFile = (index) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -79,16 +93,24 @@ function Dashboard() {
       formData.append('uploadType', uploadType);
 
       if (uploadType === 'file') {
-        if (!file) {
-          throw new Error('Please select a file');
+        if (files.length === 0) {
+          throw new Error('Please select at least one file');
         }
-        formData.append('file', file);
-        formData.append('type', type);
+        
+        // Append all files
+        files.forEach((file, index) => {
+          formData.append('file', file);
+          // Set type based on file mimetype
+          const fileType = file.type.startsWith('video/') ? 'video' : 'photo';
+          formData.append('type', fileType);
+          formData.append('order', index + 1); // Add order for each file
+        });
+
       } else {
         const videoId = validateYoutubeUrl(youtubeUrl);
-        formData.append('youtubeUrl', youtubeUrl);
         formData.append('youtubeVideoId', videoId);
         formData.append('type', 'video');
+        formData.append('order', 1);
       }
 
       const response = await fetch('/api/upload', {
@@ -171,7 +193,7 @@ function Dashboard() {
                       : 'bg-gray-200 text-gray-700'
                   }`}
                 >
-                  Upload File
+                  Upload Files
                 </button>
                 <button
                   type="button"
@@ -189,16 +211,38 @@ function Dashboard() {
               {uploadType === 'file' ? (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    File
+                    Files
                   </label>
                   <input
                     type="file"
                     ref={fileInputRef}
-                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    onChange={handleFileChange}
                     className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
                     accept="image/*,video/*"
+                    multiple // Enable multiple file selection
                     required
                   />
+                  
+                  {/* Selected Files List */}
+                  {selectedFiles.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      <p className="text-sm font-medium text-gray-700">Selected Files:</p>
+                      {selectedFiles.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                          <span className="text-sm">
+                            {file.name} ({file.size})
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(index)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div>
@@ -207,7 +251,7 @@ function Dashboard() {
                   </label>
                   <input
                     type="url"
-                    value={youtubeUrl || ''} // Ensure value is never undefined
+                    value={youtubeUrl}
                     onChange={(e) => setYoutubeUrl(e.target.value)}
                     className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
                     placeholder="https://www.youtube.com/watch?v=..."
@@ -222,7 +266,7 @@ function Dashboard() {
                 </label>
                 <input
                   type="text"
-                  value={tags || ''} // Ensure value is never undefined
+                  value={tags}
                   onChange={(e) => setTags(e.target.value)}
                   className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
                   placeholder="wedding invite, Hindu invite, save the date"
@@ -236,7 +280,7 @@ function Dashboard() {
                     Type
                   </label>
                   <select
-                    value={type || 'photo'} // Ensure value is never undefined
+                    value={type}
                     onChange={(e) => setType(e.target.value)}
                     className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
                   >

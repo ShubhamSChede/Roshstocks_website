@@ -1,10 +1,7 @@
-import { IncomingForm } from 'formidable';
-import cloudinary from '../../utils/cloudinary';
-import dbConnect from '../../utils/dbConnect';
-import Invite from '../../../../models/Invite';
-
 // app/api/invites/route.js
 import { NextResponse } from 'next/server';
+import dbConnect from '../../utils/dbConnect';
+import Invite from '../../../../models/Invite';
 
 export async function GET() {
   try {
@@ -22,12 +19,28 @@ export async function POST(request) {
     await dbConnect();
     const data = await request.json();
     
+    // Ensure media array is provided and has at least one item
+    if (!data.media || !Array.isArray(data.media) || data.media.length === 0) {
+      return NextResponse.json(
+        { error: 'At least one media item is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate each media item has required fields
+    for (const item of data.media) {
+      if (!item.url || !item.type || !item.order) {
+        return NextResponse.json(
+          { error: 'Each media item must have url, type, and order' },
+          { status: 400 }
+        );
+      }
+    }
+    
     const invite = await Invite.create({
       title: data.title,
-      imageUrl: data.imageUrl,
-      cloudinaryId: data.cloudinaryId,
+      media: data.media,
       tags: data.tags,
-      type: data.type,
     });
 
     return NextResponse.json(invite, { status: 201 });

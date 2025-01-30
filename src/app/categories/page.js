@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { Josefin_Sans } from "next/font/google";
 import { LoadingProvider } from "../../components/PageLoader";
+import ImageSlider from '../../components/ImageSlider';
 
 const josfin = Josefin_Sans({
   subsets: ['latin'],
@@ -95,14 +96,18 @@ export default function Categories() {
                     ) : (
                       filteredInvites.map(invite => (
                         <div key={invite._id} className="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-                          {invite.type === 'photo' ? (
-                            <img
-                              src={invite.imageUrl}
-                              alt={invite.title}
-                              className="w-full h-64 object-cover"
-                            />
+                          {invite.media?.length > 0 ? (
+                            <ImageSlider media={invite.media} />
+                          ) : invite.type === 'photo' ? (
+                            <div className="relative w-full pb-[177.78%]">
+                              <img
+                                src={invite.imageUrl}
+                                alt={invite.title}
+                                className="absolute top-0 left-0 w-full h-full object-cover"
+                              />
+                            </div>
                           ) : invite.isYoutubeVideo ? (
-                            <div className="relative w-full pt-[56.25%]">
+                            <div className="relative w-full pb-[177.78%]">
                               <iframe
                                 src={invite.imageUrl}
                                 title={invite.title}
@@ -112,11 +117,13 @@ export default function Categories() {
                               />
                             </div>
                           ) : (
-                            <video
-                              src={invite.imageUrl}
-                              controls
-                              className="w-full h-64 object-cover"
-                            />
+                            <div className="relative w-full pb-[177.78%]">
+                              <video
+                                src={invite.imageUrl}
+                                controls
+                                className="absolute top-0 left-0 w-full h-full object-cover"
+                              />
+                            </div>
                           )}
                           <div className="p-4">
                             <h3 className="font-bold mb-2">{invite.title}</h3>

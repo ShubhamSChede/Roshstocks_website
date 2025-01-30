@@ -25,37 +25,37 @@ export async function POST(request) {
     }
 
     await connectDB();
+    let media = [];
 
     if (uploadType === 'file') {
-      const file = formData.get('file');
-      if (!file) {
+      const files = formData.getAll('file');
+      if (!files || files.length === 0) {
         return NextResponse.json(
-          { error: 'No file uploaded' },
+          { error: 'No files uploaded' },
           { status: 400 }
         );
       }
 
-      // Convert file to base64
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const base64File = `data:${file.type};base64,${buffer.toString('base64')}`;
+      // Process each file
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const base64File = `data:${file.type};base64,${buffer.toString('base64')}`;
 
-      // Upload to Cloudinary
-      const cloudinaryResponse = await cloudinary.uploader.upload(base64File, {
-        resource_type: 'auto',
-      });
+        // Upload to Cloudinary
+        const cloudinaryResponse = await cloudinary.uploader.upload(base64File, {
+          resource_type: 'auto',
+        });
 
-      const invite = new Invite({
-        title,
-        imageUrl: cloudinaryResponse.secure_url,
-        cloudinaryId: cloudinaryResponse.public_id,
-        tags,
-        type: formData.get('type'),
-        isYoutubeVideo: false
-      });
-
-      await invite.save();
-      return NextResponse.json(invite, { status: 201 });
+        media.push({
+          url: cloudinaryResponse.secure_url,
+          cloudinaryId: cloudinaryResponse.public_id,
+          type: formData.get('type') || 'photo',
+          isYoutubeVideo: false,
+          order: parseInt(formData.get('order') || '1') + i
+        });
+      }
 
     } else if (uploadType === 'youtube') {
       const youtubeVideoId = formData.get('youtubeVideoId');
@@ -66,23 +66,29 @@ export async function POST(request) {
         );
       }
 
-      const invite = new Invite({
-        title,
-        imageUrl: `https://www.youtube.com/embed/${youtubeVideoId}`,
-        tags,
+      media.push({
+        url: `https://www.youtube.com/embed/${youtubeVideoId}`,
         type: 'video',
         isYoutubeVideo: true,
-        cloudinaryId: null
+        cloudinaryId: null,
+        order: parseInt(formData.get('order') || '1')
       });
-
-      await invite.save();
-      return NextResponse.json(invite, { status: 201 });
+    } else {
+      return NextResponse.json(
+        { error: 'Invalid upload type' },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(
-      { error: 'Invalid upload type' },
-      { status: 400 }
-    );
+    // Create invite with the new schema structure
+    const invite = new Invite({
+      title,
+      media, // This should be an array of media objects
+      tags
+    });
+
+    await invite.save();
+    return NextResponse.json(invite, { status: 201 });
 
   } catch (error) {
     console.error('Error uploading invite:', error);

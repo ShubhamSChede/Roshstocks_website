@@ -32,9 +32,9 @@ const HeroSlider = () => {
   };
 
   const slides = [
-    { id: 1, src: '/Mask group (1).png' },
-    { id: 2, src: '/Mask group (2).png' },
-    { id: 3, src: '/Mask group (3).png' },
+    { id: 1, src: '/slider1.png' },
+    { id: 2, src: '/slider2.png' },
+    { id: 3, src: '/slider3.png' },
   ];
 
   if (!isClient) {
