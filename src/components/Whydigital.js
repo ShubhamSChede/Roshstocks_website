@@ -1,194 +1,138 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Heart, Send, Palette, Globe, Clock, DollarSign, Smartphone, Leaf } from 'lucide-react';
 
-const FadeInSection = ({ children, delay = 0 }) => {
-  const domRef = useRef(null);
+const Card3D = ({ icon: Icon, title, description, color, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-10');
-        }
-      });
-    });
+  const getRandomRotation = (index) => {
+    const rotations = [
+      { x: 15, y: -15 },
+      { x: -15, y: 15 },
+      { x: 15, y: 15 },
+      { x: -15, y: -15 }
+    ];
+    return rotations[index % 4];
+  };
 
-    const currentElement = domRef.current;
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
-    };
-  }, []);
+  const baseRotation = getRandomRotation(index);
 
   return (
     <div
-      ref={domRef}
-      className="transform transition-all duration-1000 opacity-0 translate-y-10"
-      style={{ transitionDelay: `${delay}ms` }}
+      className="group perspective-1000 w-72 h-96"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {children}
-    </div>
-  );
-};
-
-const HexagonCard = ({ icon, title, description, color, gradient, position, isConnector }) => (
-  <div className={`relative ${isConnector ? 'w-16 h-16' : 'w-64 h-72'} ${position}`}>
-    {!isConnector && (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className={`w-full h-full transform transition-all duration-500 
-          hover:scale-105 cursor-pointer ${color} group-hover:shadow-2xl
-          clip-path-hexagon`}>
-          
-          <div className="absolute inset-0 bg-pink-50 opacity-90 clip-path-hexagon" />
-          
-          <div className={`absolute inset-0 bg-gradient-to-br ${gradient} to-transparent 
-            opacity-0 group-hover:opacity-10 clip-path-hexagon transition-opacity duration-500`} />
-          
-          <div className="relative h-full flex flex-col items-center justify-center p-6 text-center">
-            <div className={`p-4 rounded-full ${color} transition-transform duration-300 
-              group-hover:scale-110 mb-4`}>
-              {icon}
+      <div
+        className={`relative w-full h-full transition-all duration-500 preserve-3d
+          ${isHovered ? 'translate-z-12 shadow-2xl' : 'translate-z-0 shadow-lg'}`}
+        style={{
+          transform: isHovered
+            ? 'translateZ(50px)'
+            : `rotateX(${baseRotation.x}deg) rotateY(${baseRotation.y}deg)`
+        }}
+      >
+        {/* Front face */}
+        <div className={`absolute inset-0 backface-hidden rounded-xl ${color} p-6
+          bg-gradient-to-br from-white/80 to-white/20 backdrop-blur-sm
+          border border-white/20`}>
+          <div className="h-full flex flex-col items-center justify-center space-y-6">
+            <div className={`p-4 rounded-full bg-white/30 backdrop-blur-sm
+              transform transition-transform duration-500
+              ${isHovered ? 'scale-110 rotate-12' : ''}`}>
+              <Icon className="w-8 h-8" />
             </div>
             
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 transition-colors 
-              duration-300 group-hover:text-indigo-600">
+            <h3 className={`text-xl font-bold text-gray-800 text-center
+              transform transition-all duration-500
+              ${isHovered ? 'scale-110' : 'scale-100'}`}>
               {title}
             </h3>
             
-            <p className="text-sm text-gray-600 transition-colors duration-300 
-              group-hover:text-gray-900">
+            <p className={`text-sm text-gray-600 text-center leading-relaxed
+              transform transition-all duration-500 delay-100
+              ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               {description}
             </p>
           </div>
         </div>
-      </div>
-    )}
-    {isConnector && (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full h-2 bg-gradient-to-r from-transparent via-gray-200 to-transparent transform rotate-45" />
-      </div>
-    )}
-  </div>
-);
 
-const WhyChoose = () => {
-  const reasons = [
+        {/* Reflection effect */}
+        <div className={`absolute inset-0 rounded-xl bg-gradient-to-t from-white/5 to-transparent
+          opacity-0 transition-opacity duration-500 pointer-events-none
+          ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BenefitsGrid = () => {
+  const benefits = [
     {
-      icon: <Leaf className="w-6 h-6 text-emerald-500 transition-transform duration-300 group-hover:rotate-12" />,
+      icon: Leaf,
       title: "Eco-Friendly",
-      description: "Reduce paper waste and promote sustainability.",
-      color: "bg-emerald-50",
-      gradient: "from-emerald-500",
-      position: "col-span-2 row-span-2"
+      description: "Reduce paper waste and promote sustainability with digital alternatives.",
+      color: "bg-emerald-50"
     },
     {
-      icon: <DollarSign className="w-6 h-6 text-blue-500 transition-transform duration-300 group-hover:scale-110" />,
+      icon: DollarSign,
       title: "Cost-Effective",
-      description: "Save on printing and postage costs with beautiful designs.",
-      color: "bg-blue-50",
-      gradient: "from-blue-500",
-      position: "col-start-4 col-span-2 row-span-2"
+      description: "Save significantly on printing and postage costs without compromising on style.",
+      color: "bg-blue-50"
     },
     {
-      icon: <Send className="w-6 h-6 text-purple-500 transition-transform duration-300 group-hover:translate-x-1" />,
+      icon: Send,
       title: "Instant Delivery",
-      description: "Send invitations quickly via email or messaging apps.",
-      color: "bg-purple-50",
-      gradient: "from-purple-500",
-      position: "col-start-2 row-start-3 col-span-2 row-span-2"
+      description: "Send invitations instantly to anyone, anywhere in the world.",
+      color: "bg-purple-50"
     },
     {
-      icon: <Palette className="w-6 h-6 text-pink-500 transition-transform duration-300 group-hover:rotate-45" />,
+      icon: Palette,
       title: "Customizable",
-      description: "Easily edit designs to match your theme or preferences.",
-      color: "bg-pink-50",
-      gradient: "from-pink-500",
-      position: "col-start-5 row-start-3 col-span-2 row-span-2"
+      description: "Personalize every aspect of your invitation with easy-to-use tools.",
+      color: "bg-pink-50"
     },
     {
-      icon: <Heart className="w-6 h-6 text-red-500 transition-transform duration-300 group-hover:scale-125" />,
-      title: "Interactive Features",
-      description: "Include RSVP buttons, maps, or videos for engagement.",
-      color: "bg-red-50",
-      gradient: "from-red-500",
-      position: "col-start-1 row-start-5 col-span-2 row-span-2"
+      icon: Heart,
+      title: "Interactive",
+      description: "Add RSVP buttons, maps, and videos for an engaging experience.",
+      color: "bg-red-50"
     },
     {
-      icon: <Globe className="w-6 h-6 text-indigo-500 transition-transform duration-300 group-hover:rotate-180" />,
-      title: "Wide Reach",
-      description: "Share globally with no delays or additional costs.",
-      color: "bg-indigo-50",
-      gradient: "from-indigo-500",
-      position: "col-start-3 row-start-5 col-span-2 row-span-2"
+      icon: Globe,
+      title: "Global Reach",
+      description: "Share your special moments with loved ones across the globe instantly.",
+      color: "bg-indigo-50"
     },
     {
-      icon: <Smartphone className="w-6 h-6 text-orange-500 transition-transform duration-300 group-hover:translate-y-1" />,
-      title: "Accessible Anywhere",
-      description: "Guests can access invitations on any device.",
-      color: "bg-orange-50",
-      gradient: "from-orange-500",
-      position: "col-start-2 row-start-7 col-span-2 row-span-2"
+      icon: Smartphone,
+      title: "Mobile-First",
+      description: "Perfect viewing experience on any device, anywhere, anytime.",
+      color: "bg-orange-50"
     },
     {
-      icon: <Clock className="w-6 h-6 text-teal-500 transition-transform duration-300 group-hover:rotate-90" />,
-      title: "Modern and Trendy",
-      description: "Align with tech-savvy lifestyles for a contemporary touch.",
-      color: "bg-teal-50",
-      gradient: "from-teal-500",
-      position: "col-start-4 row-start-7 col-span-2 row-span-2"
+      icon: Clock,
+      title: "Always Modern",
+      description: "Stay current with contemporary designs and features.",
+      color: "bg-teal-50"
     }
   ];
 
-  // Add connector positions for the maze effect
-  const connectors = [
-    { position: "col-start-3 row-start-2", rotation: "45deg" },
-    { position: "col-start-4 row-start-3", rotation: "-45deg" },
-    { position: "col-start-2 row-start-4", rotation: "45deg" },
-    { position: "col-start-3 row-start-5", rotation: "-45deg" },
-    { position: "col-start-4 row-start-6", rotation: "45deg" },
-    { position: "col-start-2 row-start-6", rotation: "-45deg" }
-  ];
-
   return (
-    <div className="py-24 px-4 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      <style jsx>{`
-        .clip-path-hexagon {
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-        }
-      `}</style>
-      
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <FadeInSection>
-          <div className="text-center mb-16">
-            <h1 className="mt-2 text-4xl font-bold text-gray-900 sm:text-5xl">
-              Why Choose Digital Invitations?
-            </h1>
-            <p className="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">
-              Navigate through the benefits of going digital
-            </p>
-          </div>
-        </FadeInSection>
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Why Choose Digital Invitations?
+          </h1>
+          <p className="text-xl text-gray-600">
+            Experience the future of event planning
+          </p>
+        </div>
 
-        <div className="grid grid-cols-6 gap-4 justify-items-center relative">
-          {reasons.map((reason, index) => (
-            <FadeInSection key={index} delay={index * 150}>
-              <div className="group">
-                <HexagonCard {...reason} />
-              </div>
-            </FadeInSection>
-          ))}
-          
-          {connectors.map((connector, index) => (
-            <div key={`connector-${index}`} className={`${connector.position}`}>
-              <div className="w-16 h-2 bg-gradient-to-r from-transparent via-gray-200 to-transparent transform transition-all duration-300 hover:via-pink-200"
-                   style={{ transform: `rotate(${connector.rotation})` }} />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {benefits.map((benefit, index) => (
+            <Card3D key={index} {...benefit} index={index} />
           ))}
         </div>
       </div>
@@ -196,4 +140,4 @@ const WhyChoose = () => {
   );
 };
 
-export default WhyChoose;
+export default BenefitsGrid;
