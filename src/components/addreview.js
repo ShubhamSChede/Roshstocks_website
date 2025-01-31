@@ -1,46 +1,45 @@
 'use client';
-import React, { useState } from 'react';
-
-// Add keyframes for the animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes displayStar {
-    0% {
-      transform: rotateX(100deg) rotateY(100deg) translateY(10px);
-    }
-    100% {
-      transform: rotateX(0deg) rotateY(0deg) translateY(0px);
-    }
-  }
-
-  @keyframes checkStar {
-    0% {
-      transform: rotate(0deg);
-    }
-    20% {
-      transform: rotate(-20deg);
-    }
-    50% {
-      transform: rotate(20deg);
-    }
-    80% {
-      transform: rotate(-20deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-`;
-document.head.appendChild(style);
+import React, { useState, useEffect } from 'react';
 
 const AddReview = ({ onSubmit, formData, handleChange }) => {
   const [showForm, setShowForm] = useState(false);
 
-  const handleSubmitForm = (e) => {
-    e.preventDefault();
-    onSubmit(e);
-    setShowForm(false);
-  };
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes displayStar {
+        0% {
+          transform: rotateX(100deg) rotateY(100deg) translateY(10px);
+        }
+        100% {
+          transform: rotateX(0deg) rotateY(0deg) translateY(0px);
+        }
+      }
+
+      @keyframes checkStar {
+        0% {
+          transform: rotate(0deg);
+        }
+        20% {
+          transform: rotate(-20deg);
+        }
+        50% {
+          transform: rotate(20deg);
+        }
+        80% {
+          transform: rotate(-20deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -62,12 +61,12 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
       </button>
 
       {showForm && (
-        <form onSubmit={handleSubmitForm} className="bg-white p-8 mt-6 rounded-2xl shadow-lg border border-red-100">
+        <form onSubmit={onSubmit} className="bg-white p-8 mt-6 rounded-2xl shadow-lg border border-red-100">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Share Your Experience</h2>
           
           <div className="mb-8">
             <label className="block text-gray-700 font-medium mb-4">Rating</label>
-            <div className=" align-top flex flex-row-reverse gap-1 [transform-style:preserve-3d] [perspective:1000px] left-1">
+            <div className="align-top flex flex-row-reverse gap-1 [transform-style:preserve-3d] [perspective:1000px] left-1">
               {[5, 4, 3, 2, 1].map((star) => (
                 <label key={star} className="relative cursor-pointer group flex flex-col items-center justify-center gap-1">
                   <input
@@ -78,7 +77,6 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
                     checked={formData.rating === star}
                     onChange={() => handleChange({ target: { name: 'rating', value: star } })}
                   />
-                  {/* Base star */}
                   <svg 
                     className={`w-8 h-8 transition-all duration-500 ease-in-out ${
                       formData.rating >= star 
@@ -97,7 +95,6 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
                     />
                   </svg>
                   
-                  {/* Overlay star with animation */}
                   <svg 
                     style={{
                       animation: formData.rating >= star ? 'displayStar 0.5s cubic-bezier(0.75, 0.41, 0.82, 1.2)' : 'none',
@@ -120,7 +117,6 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
                     />
                   </svg>
                   
-                  {/* Shadow effect */}
                   <div 
                     className={`h-2 w-6 rounded-full transition-opacity duration-500 ease-in-out
                       bg-[radial-gradient(ellipse_closest-side,rgba(0,0,0,0.24),rgba(0,0,0,0))]
