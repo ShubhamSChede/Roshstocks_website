@@ -1,7 +1,7 @@
 import { Link } from 'lucide-react';
 import React, { useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
-
+import Image from 'next/image';
 
 const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
   return (
@@ -11,11 +11,15 @@ const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
       data-density="hard"
     >
       {coverImage && (
-        <img
-          src={`/${coverImage}`}
-          alt="Cover"
-          className="w-full h-full object-fill absolute top-0 left-0"
-        />
+        <div className="relative w-full h-full">
+          <Image
+            src={`/${coverImage}`}
+            alt="Cover"
+            fill
+            className="object-fill"
+            priority
+          />
+        </div>
       )}
       <div className="absolute inset-0 flex items-center justify-center">
         <h2 className="text-3xl font-serif text-white z-10">{children}</h2>
@@ -28,14 +32,18 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
   return (
     <div className="bg-pink-50 shadow-lg rounded-lg p-4 h-full" ref={ref}>
       {type === 'image' ? (
-        <div className="h-full flex items-center justify-center">
-          <img 
-            src={`/${imageName}`}
-            alt={`Wedding page ${number}`}
-            className="max-w-full h-auto rounded-lg shadow-md"
-          />
+        <div className="relative h-full flex items-center justify-center">
+          <div className="relative w-full h-full">
+            <Image 
+              src={`/${imageName}`}
+              alt={`Wedding page ${number}`}
+              fill
+              className="object-contain rounded-lg shadow-md"
+              priority
+            />
+          </div>
         </div>
-      )       : type === 'video' ? (
+      ) : type === 'video' ? (
         <div className="h-full flex items-center justify-center p-4">
           <div className="relative w-full h-full max-h-[450px] flex items-center justify-center">
             <video 
@@ -48,7 +56,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
             </video>
           </div>
         </div>
-    ): (
+      ) : (
         <div className="h-full flex flex-col items-center justify-center p-8">
           <p className="text-xl font-light leading-relaxed text-gray-700">
             {children}
@@ -66,7 +74,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
 
 const WeddingFlipbook = () => {
   return (
-    <div className=" bg-gradient-to-br from-pink-100 to-pink-200 py-12">
+    <div className="bg-gradient-to-br from-pink-100 to-pink-200 py-12">
       <div className="max-w-4xl mx-auto">
         <HTMLFlipBook
           width={400}
@@ -80,7 +88,6 @@ const WeddingFlipbook = () => {
           className="mx-auto"
           maxShadowOpacity={0.5}
           mobileScrollSupport={true}
-          
         >
           <PageCover coverImage="text.png"></PageCover>
           <Page number="1" type="image" imageName="book00.jpg" />
@@ -89,24 +96,22 @@ const WeddingFlipbook = () => {
               size={32}
               className="absolute top-4 right-4 text-gray-400"
               href='./categories'
-
             />
-          _______________________________
-          "Explore a variety of invites—all in one place! 
-          Your one-stop solution for every celebration."
-          _______________________________
+            _______________________________
+            "Explore a variety of invites—all in one place! 
+            Your one-stop solution for every celebration."
+            _______________________________
           </Page>
           <Page number="3" type="image" imageName="book02.png" />
           <Page number="4">
-
-          _______________________________
+            _______________________________
             "Plan your wedding day effortlessly with our custom itineraries! 
             Tailor every detail to fit your perfect celebration."
             _______________________________
           </Page>
           <Page number="5" type="image" imageName="book03.png" />
           <Page number="6">
-          _______________________________
+            _______________________________
             "Bring your vision to life with theme-based invites! 
             From elegant to quirky, customize every detail to match your style."
             _______________________________
@@ -120,12 +125,12 @@ const WeddingFlipbook = () => {
           </Page>
           <Page number="9" type="video" videoName="pg06.mp4" />
           <Page number="10">
-          _______________________________
+            _______________________________
             "Make a lasting impression with customized video invites. 
             Personalize every moment and share your story in a unique, memorable way."
             _______________________________
-            </Page>
-          <PageCover coverImage="text2.jpg" ></PageCover>
+          </Page>
+          <PageCover coverImage="text2.jpg"></PageCover>
         </HTMLFlipBook>
       </div>
     </div>
