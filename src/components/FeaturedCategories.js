@@ -2,6 +2,7 @@ import { Link } from 'lucide-react';
 import React, { useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import Image from 'next/image';
+import ExploreCategoryButton from './ExploreCategoryButton';
 
 const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
   return (
@@ -27,6 +28,8 @@ const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
     </div>
   );
 });
+
+PageCover.displayName = 'PageCover';
 
 const Page = React.forwardRef(({ children, number, type = 'text', imageName, videoName }, ref) => {
   return (
@@ -72,6 +75,8 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
   );
 });
 
+Page.displayName = 'Page';
+
 const WeddingFlipbook = () => {
   return (
     <div className="bg-gradient-to-br from-pink-100 to-pink-200 py-12">
@@ -89,50 +94,51 @@ const WeddingFlipbook = () => {
           maxShadowOpacity={0.5}
           mobileScrollSupport={true}
         >
-          <PageCover coverImage="text.png"></PageCover>
+          <PageCover coverImage="text.png" />
           <Page number="1" type="image" imageName="book00.jpg" />
           <Page number="2">
             <Link
               size={32}
               className="absolute top-4 right-4 text-gray-400"
-              href='./categories'
+              href="./categories"
             />
             _______________________________
-            "Explore a variety of invites—all in one place! 
-            Your one-stop solution for every celebration."
+            &ldquo;Explore a variety of invites—all in one place! 
+            Your one-stop solution for every celebration.&rdquo;
             _______________________________
           </Page>
           <Page number="3" type="image" imageName="book02.png" />
           <Page number="4">
             _______________________________
-            "Plan your wedding day effortlessly with our custom itineraries! 
-            Tailor every detail to fit your perfect celebration."
+            &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
+            Tailor every detail to fit your perfect celebration.&rdquo;
             _______________________________
           </Page>
           <Page number="5" type="image" imageName="book03.png" />
           <Page number="6">
             _______________________________
-            "Bring your vision to life with theme-based invites! 
-            From elegant to quirky, customize every detail to match your style."
+            &ldquo;Bring your vision to life with theme-based invites! 
+            From elegant to quirky, customize every detail to match your style.&rdquo;
             _______________________________
           </Page>
           <Page number="7" type="image" imageName="book01.png" />
           <Page number="8">
             _______________________________
-            "Embrace graceful simplicity with an elegant invite. 
-            Clean, timeless designs that speak volumes without saying too much."
+            &ldquo;Embrace graceful simplicity with an elegant invite. 
+            Clean, timeless designs that speak volumes without saying too much.&rdquo;
             _______________________________
           </Page>
           <Page number="9" type="video" videoName="pg06.mp4" />
           <Page number="10">
             _______________________________
-            "Make a lasting impression with customized video invites. 
-            Personalize every moment and share your story in a unique, memorable way."
+            &ldquo;Make a lasting impression with customized video invites. 
+            Personalize every moment and share your story in a unique, memorable way.&rdquo;
             _______________________________
           </Page>
-          <PageCover coverImage="text2.jpg"></PageCover>
+          <PageCover coverImage="text2.jpg" />
         </HTMLFlipBook>
       </div>
+      <ExploreCategoryButton href='/categories'/>
     </div>
   );
 };

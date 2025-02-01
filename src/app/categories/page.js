@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { Josefin_Sans } from "next/font/google";
@@ -57,6 +58,52 @@ export default function Categories() {
     invite.tags.some(tag => selectedTags.includes(tag))
   );
 
+  const renderMedia = (invite) => {
+    if (invite.media?.length > 0) {
+      return <ImageSlider media={invite.media} />;
+    }
+
+    if (invite.type === 'photo') {
+      return (
+        <div className="relative w-full pb-[177.78%]">
+          <Image
+            src={invite.imageUrl}
+            alt={invite.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            priority={false}
+            quality={75}
+          />
+        </div>
+      );
+    }
+
+    if (invite.isYoutubeVideo) {
+      return (
+        <div className="relative w-full pb-[177.78%]">
+          <iframe
+            src={invite.imageUrl}
+            title={invite.title}
+            className="absolute top-0 left-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative w-full pb-[177.78%]">
+        <video
+          src={invite.imageUrl}
+          controls
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
+      </div>
+    );
+  };
+
   return (
     <LoadingProvider>
       <main className={josfin.className}>
@@ -96,35 +143,7 @@ export default function Categories() {
                     ) : (
                       filteredInvites.map(invite => (
                         <div key={invite._id} className="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-                          {invite.media?.length > 0 ? (
-                            <ImageSlider media={invite.media} />
-                          ) : invite.type === 'photo' ? (
-                            <div className="relative w-full pb-[177.78%]">
-                              <img
-                                src={invite.imageUrl}
-                                alt={invite.title}
-                                className="absolute top-0 left-0 w-full h-full object-cover"
-                              />
-                            </div>
-                          ) : invite.isYoutubeVideo ? (
-                            <div className="relative w-full pb-[177.78%]">
-                              <iframe
-                                src={invite.imageUrl}
-                                title={invite.title}
-                                className="absolute top-0 left-0 w-full h-full"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                              />
-                            </div>
-                          ) : (
-                            <div className="relative w-full pb-[177.78%]">
-                              <video
-                                src={invite.imageUrl}
-                                controls
-                                className="absolute top-0 left-0 w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
+                          {renderMedia(invite)}
                           <div className="p-4">
                             <h3 className="font-bold mb-2">{invite.title}</h3>
                             <div className="flex flex-wrap gap-2">

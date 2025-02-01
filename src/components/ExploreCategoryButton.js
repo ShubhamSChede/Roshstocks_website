@@ -56,7 +56,7 @@ const StyledWrapper = styled.div`
 
 const ExploreCategoryButton = () => {
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-4 mt-8">
       <Button />
     </div>
   );
