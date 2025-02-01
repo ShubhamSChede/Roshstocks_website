@@ -54,7 +54,7 @@ const Navbar = () => {
   }, []);
 
   const getLinkClass = useCallback((href) => {
-    const baseClass = "text-black hover:text-red-950 px-3 py-2 rounded-md text-md font-bold transition-all duration-200";
+    const baseClass = "text-black hover:text-red-950 px-3 py-2 rounded-md text-md  transition-all duration-200";
     if (!mounted) return baseClass;
     return pathname === href
       ? `${baseClass} text-white md:bg-rose-900 md:hover:bg-rose-500`

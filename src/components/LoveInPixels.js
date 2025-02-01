@@ -2,15 +2,17 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import AnimatedEnvelope from './AnimatedEnvelope';
+import Link from 'next/link';
 
 // Updated WhatsApp component without absolute positioning
 const WhatsappButton = () => {
   return (
+
     <div className="inline-block">
       <ul className="m-0 p-0 flex justify-center">
         <li className="list-none">
           <a 
-            href="#" 
+            href="https://wa.me/message/YU52PAPPPJQDJ1" 
             className="group block relative w-16 h-16 md:w-20 md:h-20 leading-[64px] md:leading-[80px] 
               text-3xl md:text-4xl text-center text-gray-600 transition-colors duration-500 
               hover:text-[#25d366]"
@@ -52,6 +54,7 @@ const WhatsappButton = () => {
         </li>
       </ul>
     </div>
+ 
   );
 };
 
@@ -88,10 +91,11 @@ const LoveInPixels = () => {
         animate={inView ? "visible" : "hidden"}
         variants={variants}
       >
-        {/* Envelope - Left side on desktop, top on mobile */}
-        <div className="w-full md:w-1/2 max-w-md mx-auto md:mx-0">
-          <AnimatedEnvelope />
-        </div>
+        <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+  <div className="max-w-md w-full flex justify-center">
+    <AnimatedEnvelope />
+  </div>
+</div>
 
         {/* Text content - Right side on desktop, bottom on mobile */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start space-y-6">
@@ -106,7 +110,7 @@ const LoveInPixels = () => {
           </p>
           
           <div className="mt-8 flex justify-center md:justify-start w-full">
-            <WhatsappButton />
+            <WhatsappButton  />
           </div>
         </div>
       </motion.div>

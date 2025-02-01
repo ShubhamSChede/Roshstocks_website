@@ -39,16 +39,29 @@ export default {
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' }
-        }
+        },
+        scroll: {
+                '0%': { transform: 'translateY(0)' },
+                '100%': { transform: 'translateY(-50%)' },
+              },
+              scrollH: {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              
       },
       animation: {
         float: 'float 3s ease-in-out infinite',
+        'scroll-slow': 'scroll 40s linear infinite',
+     'scroll-slow-delayed': 'scroll 40s linear infinite -20s',
         'loading-bar': 'loading-bar 2s ease-in-out infinite',
         'heartbeat-l': 'heartbeat-l 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite',
         'heartbeat-r': 'heartbeat-r 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite',
         'square-pulse': 'square-pulse 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite',
         'shadow-pulse': 'shadow-pulse 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite',
         shimmer: 'shimmer 1.5s infinite'
+        ,
+        'scrollH': 'scrollH 30s linear infinite',
       },
     },
   },

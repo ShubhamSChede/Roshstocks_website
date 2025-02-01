@@ -71,7 +71,7 @@ const AboutSection = () => {
             freelancer | computer engineer
           </motion.p>
           <motion.p
-            className="text-xl ml-1 text-gray-700"
+            className="text-m ml-1 text-gray-700"
             variants={textVariant}
           >
             I am a passionate freelancer and a computer engineer with a deep

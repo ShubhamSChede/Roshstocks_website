@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FixedWhatsapp = () => {
-  const whatsappUrl = 'https://wa.me/';;
+  const whatsappUrl = 'https://wa.me/message/YU52PAPPPJQDJ1';
   return (
     <StyledWrapper>
       <a 

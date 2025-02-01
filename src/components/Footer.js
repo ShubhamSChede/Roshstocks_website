@@ -32,8 +32,6 @@ export default function Footer() {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
-              <li>123 road</li>
-              <li>City, Liecester</li>
               <li>Email: roshstocks@gmail.com</li>
               <li>Phone: (71) 123456-7890</li>
             </ul>
