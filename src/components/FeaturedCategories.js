@@ -61,7 +61,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
         </div>
       ) : (
         <div className="h-full flex flex-col items-center justify-center p-8">
-          <p className="text-xl font-light leading-relaxed text-gray-700">
+          <p className="text-md font-light leading-relaxed text-gray-700">
             {children}
           </p>
           {number && (
@@ -82,11 +82,11 @@ const WeddingFlipbook = () => {
     <div className="bg-gradient-to-br from-pink-100 to-pink-200 py-12">
       <div className="max-w-4xl mx-auto">
         <HTMLFlipBook
-          width={400}
-          height={500}
-          minWidth={250}
+          width={320}
+          height={400}
+          minWidth={200}
           maxWidth={800}
-          minHeight={350}
+          minHeight={280}
           maxHeight={1000}
           showCover={true}
           flippingTime={1000}
@@ -108,7 +108,7 @@ const WeddingFlipbook = () => {
             _______________________________
           </Page>
           <Page number="3" type="image" imageName="book02.png" />
-          <Page number="4">
+          <Page number="4" className="text-xs">
             _______________________________
             &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
             Tailor every detail to fit your perfect celebration.&rdquo;

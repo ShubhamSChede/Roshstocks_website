@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 const Loader = () => (
@@ -27,28 +27,62 @@ export const ReviewGrid = ({
   formatDate,
   isLoading = false 
 }) => {
+  const [sortType, setSortType] = useState('newest');
+
+  const sortedReviews = useMemo(() => {
+    if (!reviews.length) return [];
+    
+    const reviewsCopy = [...reviews];
+    
+    switch (sortType) {
+      case 'highest':
+        return reviewsCopy.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      case 'lowest':
+        return reviewsCopy.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+      case 'oldest':
+        return reviewsCopy.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      case 'newest':
+      default:
+        return reviewsCopy.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+  }, [reviews, sortType]);
+
   if (isLoading) {
     return <Loader />;
   }
 
   return (
     <div className="mt-8 mb-10">
-      {reviews.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {reviews.map((review) => {
+      <div className="mb-6 flex justify-end">
+        <select
+          className="bg-white border border-gray-300 rounded-md px-4 py-2 text-sm"
+          value={sortType}
+          onChange={(e) => setSortType(e.target.value)}
+        >
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="highest">Highest Rated</option>
+          <option value="lowest">Lowest Rated</option>
+        </select>
+      </div>
+
+      {sortedReviews.length > 0 ? (
+       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+          {sortedReviews.map((review) => {
             if (!review || !review._id) return null;
 
             return (
               <motion.div 
                 key={review._id} 
-                className="bg-pink-50 shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300"
+                className="bg-pink-50 shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 "
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-100  flex items-center justify-center">
                     <span className="text-xl font-bold text-blue-600">
                       {review.name ? review.name.charAt(0).toUpperCase() : 'A'}
                     </span>

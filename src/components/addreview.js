@@ -3,6 +3,27 @@ import React, { useState, useEffect } from 'react';
 
 const AddReview = ({ onSubmit, formData, handleChange }) => {
   const [showForm, setShowForm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await onSubmit(e);
+    
+    // Show success message
+    setShowSuccess(true);
+    alert('Your comment was submitted successfully. Thank you for choosing RoshStocks! 🎉');
+    
+    // Reset form
+    handleChange({ target: { name: 'review', value: '' } });
+    handleChange({ target: { name: 'name', value: '' } });
+    handleChange({ target: { name: 'rating', value: 5 } });
+    
+    // Close form after delay
+    setTimeout(() => {
+      setShowForm(false);
+      setShowSuccess(false);
+    }, 2000);
+  };
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -43,10 +64,11 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <button
-        onClick={() => setShowForm(!showForm)}
-        className="group flex items-center space-x-3 px-6 py-3 border-2 border-pink-100 rounded-full bg-white hover:bg-red-50 text-black font-semibold cursor-pointer outline-none transition-all duration-300 mt-4 shadow-sm hover:shadow-md"
-      >
+<button
+  onClick={() => setShowForm(!showForm)}
+  className="group flex items-center space-x-3 px-6 py-3 border-2 border-pink-100 rounded-full bg-white hover:bg-red-50 text-black font-semibold cursor-pointer outline-none transition-all duration-300 mt-4 shadow-sm hover:shadow-md 
+  md:self-start md:ml-4"
+>
         <span className="text-lg">{showForm ? 'Cancel Review' : 'Write a Review'}</span>
         <span className={`transform transition-transform duration-300 ${showForm ? 'rotate-45' : ''}`}>
           <svg
@@ -61,7 +83,7 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
       </button>
 
       {showForm && (
-        <form onSubmit={onSubmit} className="bg-white p-8 mt-6 rounded-2xl shadow-lg border border-red-100">
+        <form onSubmit={handleSubmit} className="bg-white p-8 mt-6 rounded-2xl shadow-lg border border-red-100">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Share Your Experience</h2>
           
           <div className="mb-8">
@@ -202,6 +224,7 @@ const AddReview = ({ onSubmit, formData, handleChange }) => {
                 <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               Submit Review
+  
             </button>
           </div>
         </form>
