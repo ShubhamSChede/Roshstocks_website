@@ -1,4 +1,3 @@
-// route.js
 import connectToDatabase from '../../utils/dbConnect';
 import Review from '../../../../models/Review';
 
@@ -49,3 +48,42 @@ export const POST = async (req) => {
   }
 };
 
+export const DELETE = async (req) => {
+  await connectToDatabase();
+
+  try {
+    // Extract the review ID from the URL or request parameters
+    const url = new URL(req.url);
+    const reviewId = url.searchParams.get('id');
+
+    if (!reviewId) {
+      return new Response(
+        JSON.stringify({ success: false, message: 'Review ID is required' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if the review exists before attempting to delete
+    const existingReview = await Review.findById(reviewId);
+    if (!existingReview) {
+      return new Response(
+        JSON.stringify({ success: false, message: 'Review not found' }),
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Delete the review
+    await Review.findByIdAndDelete(reviewId);
+
+    return new Response(
+      JSON.stringify({ success: true, message: 'Review deleted successfully' }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    return new Response(
+      JSON.stringify({ success: false, message: 'Error deleting review', error: error.message }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+};

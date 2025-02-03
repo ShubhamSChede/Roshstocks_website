@@ -7,7 +7,7 @@ import ExploreCategoryButton from './ExploreCategoryButton';
 const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
   return (
     <div 
-      className="bg-red-50 shadow-lg rounded-lg h-full relative overflow-hidden" 
+      className="bg-red-50  rounded-lg h-full relative overflow-hidden" 
       ref={ref} 
       data-density="hard"
     >
@@ -33,7 +33,7 @@ PageCover.displayName = 'PageCover';
 
 const Page = React.forwardRef(({ children, number, type = 'text', imageName, videoName }, ref) => {
   return (
-    <div className="bg-pink-50 shadow-lg rounded-lg p-4 h-full" ref={ref}>
+    <div className="bg-pink-50  rounded-lg p-4 h-full" ref={ref}>
       {type === 'image' ? (
         <div className="relative h-full flex items-center justify-center">
           <div className="relative w-full h-full">
@@ -41,7 +41,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
               src={`/${imageName}`}
               alt={`Wedding page ${number}`}
               fill
-              className="object-contain rounded-lg shadow-md"
+              className="object-contain rounded-lg "
               priority
             />
           </div>
@@ -50,7 +50,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
         <div className="h-full flex items-center justify-center p-4">
           <div className="relative w-full h-full max-h-[450px] flex items-center justify-center">
             <video 
-              className="h-full w-auto object-contain rounded-lg shadow-md"
+              className="h-full w-auto object-contain rounded-lg"
               controls
               muted
             >
@@ -91,10 +91,10 @@ const WeddingFlipbook = () => {
           showCover={true}
           flippingTime={1000}
           className="mx-auto"
-          maxShadowOpacity={0.5}
+          maxShadowOpacity={0.1}
           mobileScrollSupport={true}
         >
-          <PageCover coverImage="text.png" />
+          <PageCover coverImage="c1.png" />
           <Page number="1" type="image" imageName="book00.jpg" />
           <Page number="2">
             <Link
@@ -107,21 +107,21 @@ const WeddingFlipbook = () => {
             Your one-stop solution for every celebration.&rdquo;
             _______________________________
           </Page>
-          <Page number="3" type="image" imageName="book02.png" />
+          <Page number="3" type="image" imageName="p2.png" />
           <Page number="4" className="text-xs">
             _______________________________
             &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
             Tailor every detail to fit your perfect celebration.&rdquo;
             _______________________________
           </Page>
-          <Page number="5" type="image" imageName="book03.png" />
+          <Page number="5" type="image" imageName="p3.png" />
           <Page number="6">
             _______________________________
             &ldquo;Bring your vision to life with theme-based invites! 
             From elegant to quirky, customize every detail to match your style.&rdquo;
             _______________________________
           </Page>
-          <Page number="7" type="image" imageName="book01.png" />
+          <Page number="7" type="image" imageName="p1.png" />
           <Page number="8">
             _______________________________
             &ldquo;Embrace graceful simplicity with an elegant invite. 
@@ -135,7 +135,7 @@ const WeddingFlipbook = () => {
             Personalize every moment and share your story in a unique, memorable way.&rdquo;
             _______________________________
           </Page>
-          <PageCover coverImage="text2.jpg" />
+          <PageCover coverImage="c2.png" />
         </HTMLFlipBook>
       </div>
       <ExploreCategoryButton href='/categories'/>
