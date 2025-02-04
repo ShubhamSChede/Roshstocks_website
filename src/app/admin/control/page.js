@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { Trash2, Edit, Save, X } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';

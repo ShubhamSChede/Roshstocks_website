@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import DashboardClient from './../../../components/Dashboard';
 
 export default function ControlPage() {
