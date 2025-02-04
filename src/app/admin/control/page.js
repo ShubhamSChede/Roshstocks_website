@@ -1,7 +1,19 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Trash2, Edit, Save, X } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+
+const Alert = ({ children, variant = 'success' }) => {
+  const baseClasses = "p-4 mb-4 rounded-lg";
+  const variantClasses = variant === 'destructive' 
+    ? "bg-red-50 text-red-700 border border-red-200"
+    : "bg-green-50 text-green-700 border border-green-200";
+    
+  return (
+    <div className={`${baseClasses} ${variantClasses}`}>
+      {children}
+    </div>
+  );
+};
 
 const AdminControl = () => {
   const [invites, setInvites] = useState([]);
@@ -87,13 +99,13 @@ const AdminControl = () => {
       
       {/* Alerts */}
       {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertDescription>{error}</AlertDescription>
+        <Alert variant="destructive">
+          {error}
         </Alert>
       )}
       {success && (
-        <Alert className="mb-4 bg-green-50 text-green-700 border-green-200">
-          <AlertDescription>{success}</AlertDescription>
+        <Alert>
+          {success}
         </Alert>
       )}
 
