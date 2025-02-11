@@ -32,9 +32,9 @@ const ImageSlider = ({ media }) => {
   const currentItem = media[currentIndex];
 
   return (
-    <div className="relative w-full aspect-video">
+    <div className="relative w-full aspect-[4/5] md:aspect-[9/16] overflow-hidden">
       {/* Current Media Item */}
-      <div className="w-full h-full rounded-lg overflow-hidden">
+      <div className="absolute inset-0">
         {currentItem.type === 'photo' ? (
           <div className="relative w-full h-full">
             <Image
