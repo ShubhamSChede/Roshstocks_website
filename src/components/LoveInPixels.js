@@ -91,7 +91,7 @@ const LoveInPixels = () => {
         animate={inView ? "visible" : "hidden"}
         variants={variants}
       >
-        <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+        <div className="w-full md:w-1/3 flex justify-center md:justify-start md:ml-44">
   <div className="max-w-md w-full flex justify-center">
     <AnimatedEnvelope />
   </div>

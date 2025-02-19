@@ -46,12 +46,12 @@ const HeroSlider = () => {
       <Slider {...sliderSettings}>
         {slides.map((slide) => (
           <div key={slide.id} className="relative w-full">
-            <div className="relative w-full h-auto">
+            <div className="relative w-full lg:h-72 h-auto">
               <Image
                 src={slide.src}
                 alt={`Slide ${slide.id}`}
-                width={1920} // Adjust to your original image width
-                height={1080} // Adjust to your original image height
+                width={1920}
+                height={1080} 
                 priority={slide.id === 1}
                 className="object-cover w-full h-auto"
                 sizes="100vw"
