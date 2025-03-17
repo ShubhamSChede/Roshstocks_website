@@ -76,17 +76,44 @@ export default function Categories() {
     setSelectedMediaTypes([]);
   };
 
+  // Improved getMediaType function
   const getMediaType = (invite) => {
-    if (invite.media?.length > 1) return MEDIA_TYPES.MULTIPLE;
-    if (invite.type === 'photo') return MEDIA_TYPES.PHOTO;
-    return MEDIA_TYPES.VIDEO;
+    // Check if invite has multiple media items
+    if (invite.media && invite.media.length > 1) {
+      return MEDIA_TYPES.MULTIPLE;
+    }
+    
+    // For single media items
+    if (invite.media && invite.media.length === 1) {
+      const mediaItem = invite.media[0];
+      
+      // Check media type based on the item's properties
+      if (mediaItem.type === 'video' || mediaItem.isYoutubeVideo) {
+        return MEDIA_TYPES.VIDEO;
+      } else {
+        return MEDIA_TYPES.PHOTO;
+      }
+    }
+    
+    // Backward compatibility for old data structure
+    if (invite.type === 'video' || invite.isYoutubeVideo) {
+      return MEDIA_TYPES.VIDEO;
+    }
+    
+    // Default to photo
+    return MEDIA_TYPES.PHOTO;
   };
 
+  // Updated filter function
   const filteredInvites = invites.filter(invite => {
+    // Filter by tags
     const matchesTags = selectedTags.length === 0 || 
       invite.tags.some(tag => selectedTags.includes(tag));
     
+    // Get correct media type
     const mediaType = getMediaType(invite);
+    
+    // Filter by media type
     const matchesMediaType = selectedMediaTypes.length === 0 || 
       selectedMediaTypes.includes(mediaType);
 
@@ -98,7 +125,7 @@ export default function Categories() {
       return <ImageSlider media={invite.media} />;
     }
 
-    const wrapperClass = "relative w-full aspect-[4/5] md:aspect-[9/16] overflow-hidden";
+    const wrapperClass = "relative w-full aspect-[3/4] overflow-hidden";
     
     if (invite.type === 'photo') {
       return (
@@ -107,7 +134,7 @@ export default function Categories() {
             src={invite.imageUrl}
             alt={invite.title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
             className="object-cover"
             priority={false}
             quality={75}
@@ -247,7 +274,7 @@ export default function Categories() {
                 <>
                   {isFilterOpen && <FilterPanel />}
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     {filteredInvites.length === 0 ? (
                       <div className="col-span-full text-center py-8 text-gray-500">
                         No invites found matching your filters.
@@ -256,17 +283,22 @@ export default function Categories() {
                       filteredInvites.map(invite => (
                         <div key={invite._id} className="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
                           {renderMedia(invite)}
-                          <div className="p-4">
-                            <h3 className="font-bold mb-2">{invite.title}</h3>
-                            <div className="flex flex-wrap gap-2">
-                              {invite.tags.map(tag => (
+                          <div className="p-2">
+                            <h3 className="font-bold text-sm mb-1 truncate">{invite.title}</h3>
+                            <div className="flex flex-wrap gap-1">
+                              {invite.tags.slice(0, 2).map(tag => (
                                 <span
                                   key={tag}
-                                  className="px-2 py-1 bg-gray-100 rounded-full text-sm"
+                                  className="px-1.5 py-0.5 bg-gray-100 rounded-full text-xs"
                                 >
                                   {tag}
                                 </span>
                               ))}
+                              {invite.tags.length > 2 && (
+                                <span className="px-1.5 py-0.5 bg-gray-100 rounded-full text-xs">
+                                  +{invite.tags.length - 2}
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>

@@ -7,7 +7,7 @@ import ExploreCategoryButton from './ExploreCategoryButton';
 const PageCover = React.forwardRef(({ children, coverImage }, ref) => {
   return (
     <div 
-      className="bg-red-50  rounded-lg h-full relative overflow-hidden" 
+      className="bg-red-50 rounded-lg h-full relative overflow-hidden" 
       ref={ref} 
       data-density="hard"
     >
@@ -33,7 +33,7 @@ PageCover.displayName = 'PageCover';
 
 const Page = React.forwardRef(({ children, number, type = 'text', imageName, videoName }, ref) => {
   return (
-    <div className="bg-pink-50  rounded-lg p-4 h-full" ref={ref}>
+    <div className="bg-pink-50 rounded-lg p-4 h-full" ref={ref}>
       {type === 'image' ? (
         <div className="relative h-full flex items-center justify-center">
           <div className="relative w-full h-full">
@@ -41,7 +41,7 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
               src={`/${imageName}`}
               alt={`Wedding page ${number}`}
               fill
-              className="object-contain rounded-lg "
+              className="object-contain rounded-lg"
               priority
             />
           </div>
@@ -78,66 +78,141 @@ const Page = React.forwardRef(({ children, number, type = 'text', imageName, vid
 Page.displayName = 'Page';
 
 const WeddingFlipbook = () => {
+  const [isFirstPageFlipped, setIsFirstPageFlipped] = useState(false);
+
+  const handlePageFlip = (e) => {
+    if (e.data === 1) {
+      setIsFirstPageFlipped(true);
+    }
+  };
+
   return (
     <div className="bg-gradient-to-br from-pink-100 to-pink-200 py-12">
-      <div className="max-w-4xl mx-auto">
-        <HTMLFlipBook
-          width={320}
-          height={400}
-          minWidth={200}
-          maxWidth={800}
-          minHeight={280}
-          maxHeight={1000}
-          showCover={true}
-          flippingTime={1000}
-          className="mx-auto"
-          maxShadowOpacity={0.1}
-          mobileScrollSupport={true}
-        >
-          <PageCover coverImage="c1.png" />
-          <Page number="1" type="image" imageName="book00.jpg" />
-          <Page number="2">
-            <Link
-              size={32}
-              className="absolute top-4 right-4 text-gray-400"
-              href="./categories"
-            />
-            _______________________________
-            &ldquo;Explore a variety of invites—all in one place! 
-            Your one-stop solution for every celebration.&rdquo;
-            _______________________________
-          </Page>
-          <Page number="3" type="image" imageName="p2.png" />
-          <Page number="4" className="text-xs">
-            _______________________________
-            &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
-            Tailor every detail to fit your perfect celebration.&rdquo;
-            _______________________________
-          </Page>
-          <Page number="5" type="image" imageName="p3.png" />
-          <Page number="6">
-            _______________________________
-            &ldquo;Bring your vision to life with theme-based invites! 
-            From elegant to quirky, customize every detail to match your style.&rdquo;
-            _______________________________
-          </Page>
-          <Page number="7" type="image" imageName="p1.png" />
-          <Page number="8">
-            _______________________________
-            &ldquo;Embrace graceful simplicity with an elegant invite. 
-            Clean, timeless designs that speak volumes without saying too much.&rdquo;
-            _______________________________
-          </Page>
-          <Page number="9" type="video" videoName="pg06.mp4" />
-          <Page number="10">
-            _______________________________
-            &ldquo;Make a lasting impression with customized video invites. 
-            Personalize every moment and share your story in a unique, memorable way.&rdquo;
-            _______________________________
-          </Page>
-          <PageCover coverImage="c2.png" />
-        </HTMLFlipBook>
-      </div>
+      <div className={`transition-all duration-500 ${!isFirstPageFlipped ? 'flex justify-center' : 'max-w-4xl mx-auto'}`}>
+        <div style={{ 
+          display: isFirstPageFlipped ? 'block' : 'inline-block',
+          width: isFirstPageFlipped ? 'auto' : 'fit-content'
+        }}>
+          <HTMLFlipBook
+              width={320}
+              height={400}
+              minWidth={200}
+              maxWidth={800}
+              minHeight={280}
+              maxHeight={1000}
+              showCover={true}
+              flippingTime={1000}
+              className="mx-auto"
+              maxShadowOpacity={0.1}
+              mobileScrollSupport={true}
+              onFlip={handlePageFlip}
+            >
+              <PageCover coverImage="c1.png" />
+              <Page number="1" type="image" imageName="book00.jpg" />
+              <Page number="2">
+                <Link
+                  size={32}
+                  className="absolute top-4 right-4 text-gray-400"
+                  href="./categories"
+                />
+                _______________________________
+                &ldquo;Explore a variety of invites—all in one place! 
+                Your one-stop solution for every celebration.&rdquo;
+                _______________________________
+              </Page>
+              <Page number="3" type="image" imageName="p2.png" />
+              <Page number="4" className="text-xs">
+                _______________________________
+                &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
+                Tailor every detail to fit your perfect celebration.&rdquo;
+                _______________________________
+              </Page>
+              <Page number="5" type="image" imageName="p3.png" />
+              <Page number="6">
+                _______________________________
+                &ldquo;Bring your vision to life with theme-based invites! 
+                From elegant to quirky, customize every detail to match your style.&rdquo;
+                _______________________________
+              </Page>
+              <Page number="7" type="image" imageName="p1.png" />
+              <Page number="8">
+                _______________________________
+                &ldquo;Embrace graceful simplicity with an elegant invite. 
+                Clean, timeless designs that speak volumes without saying too much.&rdquo;
+                _______________________________
+              </Page>
+              <Page number="9" type="video" videoName="pg06.mp4" />
+              <Page number="10">
+                _______________________________
+                &ldquo;Make a lasting impression with customized video invites. 
+                Personalize every moment and share your story in a unique, memorable way.&rdquo;
+                _______________________________
+              </Page>
+              <PageCover coverImage="c2.png" />
+            </HTMLFlipBook>
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-4xl mx-auto">
+          <HTMLFlipBook
+            width={320}
+            height={400}
+            minWidth={200}
+            maxWidth={800}
+            minHeight={280}
+            maxHeight={1000}
+            showCover={true}
+            flippingTime={1000}
+            className="mx-auto"
+            maxShadowOpacity={0.1}
+            mobileScrollSupport={true}
+            onFlip={handlePageFlip}
+          >
+            <PageCover coverImage="c1.png" />
+            <Page number="1" type="image" imageName="book00.jpg" />
+            <Page number="2">
+              <Link
+                size={32}
+                className="absolute top-4 right-4 text-gray-400"
+                href="./categories"
+              />
+              _______________________________
+              &ldquo;Explore a variety of invites—all in one place! 
+              Your one-stop solution for every celebration.&rdquo;
+              _______________________________
+            </Page>
+            <Page number="3" type="image" imageName="p2.png" />
+            <Page number="4" className="text-xs">
+              _______________________________
+              &ldquo;Plan your wedding day effortlessly with our custom itineraries! 
+              Tailor every detail to fit your perfect celebration.&rdquo;
+              _______________________________
+            </Page>
+            <Page number="5" type="image" imageName="p3.png" />
+            <Page number="6">
+              _______________________________
+              &ldquo;Bring your vision to life with theme-based invites! 
+              From elegant to quirky, customize every detail to match your style.&rdquo;
+              _______________________________
+            </Page>
+            <Page number="7" type="image" imageName="p1.png" />
+            <Page number="8">
+              _______________________________
+              &ldquo;Embrace graceful simplicity with an elegant invite. 
+              Clean, timeless designs that speak volumes without saying too much.&rdquo;
+              _______________________________
+            </Page>
+            <Page number="9" type="video" videoName="pg06.mp4" />
+            <Page number="10">
+              _______________________________
+              &ldquo;Make a lasting impression with customized video invites. 
+              Personalize every moment and share your story in a unique, memorable way.&rdquo;
+              _______________________________
+            </Page>
+            <PageCover coverImage="c2.png" />
+          </HTMLFlipBook>
+        </div>
+      ){'}'}
       <ExploreCategoryButton href='/categories'/>
     </div>
   );
