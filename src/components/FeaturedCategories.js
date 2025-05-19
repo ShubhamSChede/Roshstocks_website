@@ -1,5 +1,5 @@
 import { Link } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';  // Add useRef
 import HTMLFlipBook from 'react-pageflip';
 import Image from 'next/image';
 import ExploreCategoryButton from './ExploreCategoryButton';
@@ -79,21 +79,38 @@ Page.displayName = 'Page';
 
 const WeddingFlipbook = () => {
   const [isFirstPageFlipped, setIsFirstPageFlipped] = useState(false);
+  const flipBookRef = useRef(null);  // Add a ref to access the flipbook methods
 
   const handlePageFlip = (e) => {
     if (e.data === 1) {
       setIsFirstPageFlipped(true);
     }
+    
+    // Check if we've reached the last page before cover
+    // Total pages minus 1 (for 0-based index) minus 1 (for the back cover)
+    const totalPages = 12;  // Adjust based on your total number of pages including covers
+    const lastContentPage = totalPages - 2;
+    
+    if (e.data === lastContentPage) {
+      // Set a timeout to flip to the back cover after a brief pause
+      setTimeout(() => {
+        if (flipBookRef.current) {
+          flipBookRef.current.pageFlip().flipNext();
+        }
+      }, 2000);  // 2 second delay before auto-flipping to cover
+    }
   };
 
   return (
     <div className="bg-gradient-to-br from-pink-100 to-pink-200 py-12">
-      <div className={`transition-all duration-500 ${!isFirstPageFlipped ? 'flex justify-center' : 'max-w-4xl mx-auto'}`}>
-        <div style={{ 
-          display: isFirstPageFlipped ? 'block' : 'inline-block',
-          width: isFirstPageFlipped ? 'auto' : 'fit-content'
-        }}>
-          <HTMLFlipBook
+      {!isFirstPageFlipped ? (
+        <div className="flex justify-center">
+          <div style={{ 
+            display: 'inline-block',
+            width: 'fit-content'
+          }}>
+            <HTMLFlipBook
+              ref={flipBookRef}  // Add the ref here
               width={320}
               height={400}
               minWidth={200}
@@ -155,6 +172,7 @@ const WeddingFlipbook = () => {
       ) : (
         <div className="max-w-4xl mx-auto">
           <HTMLFlipBook
+            ref={flipBookRef}  // Add the ref here too
             width={320}
             height={400}
             minWidth={200}
@@ -212,7 +230,7 @@ const WeddingFlipbook = () => {
             <PageCover coverImage="c2.png" />
           </HTMLFlipBook>
         </div>
-      ){'}'}
+      )}
       <ExploreCategoryButton href='/categories'/>
     </div>
   );
